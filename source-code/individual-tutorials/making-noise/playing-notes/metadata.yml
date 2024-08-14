@@ -1,0 +1,9 @@
+title: Title
+description: Description :)
+author: ThePythonator
+splash:
+  file: assets/no-image.png
+icon:
+  file: assets/no-icon.png
+version: v1.0.0
+category: demo

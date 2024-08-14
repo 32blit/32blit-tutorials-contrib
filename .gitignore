@@ -1,0 +1,6 @@
+build/
+build.stm32/
+out/
+.vs/
+.vscode/
+CMakeSettings.json

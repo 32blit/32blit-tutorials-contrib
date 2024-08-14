@@ -1,0 +1,3 @@
+assets.cpp:
+  assets/wav-demo.wav:
+    name: wav_demo

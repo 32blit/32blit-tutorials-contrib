@@ -1,0 +1,9 @@
+title: Complex Haptic Effects
+description: A small demo of haptic feedback by specifying the vibration amplitude for each frame.
+author: ThePythonator
+splash:
+  file: assets/no-image.png
+icon:
+  file: assets/no-icon.png
+version: v1.0.0
+category: demo

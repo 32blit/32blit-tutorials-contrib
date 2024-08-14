@@ -1,0 +1,9 @@
+title: Fading haptic amplitude
+description: A small demo of basic haptic feedback by fading out the vibration amplitude over time.
+author: ThePythonator
+splash:
+  file: assets/no-image.png
+icon:
+  file: assets/no-icon.png
+version: v1.0.0
+category: demo

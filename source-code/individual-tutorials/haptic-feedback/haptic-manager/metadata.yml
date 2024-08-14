@@ -1,0 +1,9 @@
+title: Haptic Manager
+description: A small demo of haptic feedback by specifying the vibration amplitude for each frame, using a class to manage the effects.
+author: ThePythonator
+splash:
+  file: assets/no-image.png
+icon:
+  file: assets/no-icon.png
+version: v1.0.0
+category: demo

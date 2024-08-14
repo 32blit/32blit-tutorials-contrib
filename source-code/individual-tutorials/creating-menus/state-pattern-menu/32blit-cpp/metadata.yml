@@ -1,0 +1,9 @@
+title: OOP-based menu demo
+description: Using runtime polymorphism to handle a menu system. Part of the "Creating Menus" tutorial.
+author: ThePythonator
+splash:
+  file: assets/no-image.png
+icon:
+  file: assets/no-icon.png
+version: v1.0.0
+category: demo
