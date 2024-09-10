@@ -8,7 +8,8 @@ In this episode, we'll add the ability to load and render a level. After that, w
 
 Before we can draw a level to the screen, we need to store the layout of the level. For now, we only need to store the platform tiles, but we will create a data structure that we can add more fields to later (such as the ladder tile data). We'll call this structure `LevelData`, and add it to our constants file.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 // Game area size in tiles
@@ -21,7 +22,9 @@ struct LevelData {
     uint8_t platforms[GAME_WIDTH_TILES * GAME_HEIGHT_TILES];
 };
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 // Game area size in tiles
@@ -34,7 +37,9 @@ struct LevelData {
     uint8_t platforms[GAME_WIDTH_TILES * GAME_HEIGHT_TILES];
 };
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # constants.py
 
 # Game area size in tiles
@@ -50,6 +55,8 @@ class LevelData:
     def copy(self):
         return LevelData(self.platforms.copy())
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 > For the Python version, we've added a method to create a copy of this structure. This is because if we assign an existing list to a new variable, both variables will still refer to the same data, meaning that modifying one list will change the other list too. We'll need this method later, as we will eventually be editing copies of our level data during gameplay.
 
@@ -61,7 +68,8 @@ The data for our platforms will be stored as an array, with each index represent
 
 We will store the data for all our levels in a single array, with each item in the array corresponding to a specific level in our game. Each of these items will be an instance of the `LevelData` data structure that we just defined. We'll also need to define the number of levels in our game (just one for now, although we'll add more levels later).
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 // Number of levels
@@ -91,7 +99,9 @@ const LevelData LEVELS[LEVEL_COUNT] = {
     }
 };
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 // Number of levels
@@ -121,7 +131,9 @@ const LevelData LEVELS[LEVEL_COUNT] = {
     }
 };
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # constants.py
 
 # Number of levels
@@ -151,6 +163,8 @@ LEVELS = [
     )
 ]
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 > If you want to edit the level, you can add/remove platforms by changing the values in the array.
 
@@ -170,12 +184,17 @@ python3 -m pip install pytmx
 
 To run the script, you need to provide it with the path to the `.tmx` file:
 
-``` Windows
+{% capture windowscmd %}
+```
 python3 map_convertor.py path/to/map_file.tmx 
 ```
-``` Linux/MacOS
+{% endcapture %}
+{% capture linuxcmd %}
+```
 ./map_convertor.py path/to/map_file.tmx 
 ```
+{% endcapture %}
+{% include code-tabs.html Windows=windowscmd linux_s_macos=linuxcmd %}
 
 You will then be prompted to enter the name of the layer which will be converted (this isn't case-sensitive). If you are modifying the pre-existing level files, the layer name should be one of:
 
@@ -200,7 +219,8 @@ Currently the `PlayerNinja` class is instantiated and handled within `ninja_thie
 
 Create a new file in `include/` called `level.hpp` (or `level.py`), with the following code:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // level.hpp
 
 #pragma once
@@ -227,7 +247,9 @@ private:
     PlayerNinja player;
 };
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // level.hpp
 
 #pragma once
@@ -254,7 +276,9 @@ private:
     PlayerNinja player;
 };
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # level.py
 
 from player_ninja import PlayerNinja
@@ -282,12 +306,15 @@ class Level:
         # Render the placeholder score text
         text("Score: 0", 2, 2)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 > The Python code uses the `copy` method we defined earlier, so that the `level_data` attribute is a true copy of the data, and not just a reference to an item in the `LEVELS` list defined in our constants file.
 
 If you're using C++, you also need to create a new file in `src/` called `level.cpp`, where we will define our member functions:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // level.cpp
 
 #include "level.hpp"
@@ -322,7 +349,9 @@ void Level::render() {
     screen.text("Score: 0", minimal_font, Point(2, 2));
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // level.cpp
 
 #include "level.hpp"
@@ -357,6 +386,8 @@ void Level::render() {
     text("Score: 0", 2, 2);
 }
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp %}
 
 ### Tidying up
 
@@ -366,7 +397,8 @@ We can also remove the placeholder score text, as it has also been moved into ou
 
 Your `ninja_thief.cpp` (or `ninja_thief.py`) file should now look like this:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja_thief.cpp
 
 #include "ninja_thief.hpp"
@@ -426,7 +458,9 @@ void render(uint32_t time) {
     level.render();
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja_thief.cpp
 
 #include "ninja_thief.hpp"
@@ -484,7 +518,9 @@ void draw(uint32_t tick) {
     level.render();
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja_thief.py
 
 from time import ticks_ms, ticks_diff
@@ -540,12 +576,15 @@ def draw(tick):
 # Enter the main game loop
 start()
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 We won't need to modify this file for quite a while, since most of our work will be in the `Level` and `Ninja` classes.
 
 If you are using C++, you need to include the new `level.hpp` header file in `ninja_thief.hpp`, as well as remove the temporary include of the `player_ninja.hpp` file. Your `ninja_thief.hpp` file should now look like this:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 #include "32blit.hpp"
 
 #include "constants.hpp"
@@ -554,7 +593,9 @@ If you are using C++, you need to include the new `level.hpp` header file in `ni
 #include "assets.hpp"
 ```
 
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 #include "picosystem.hpp"
 
 #include "constants.hpp"
@@ -562,12 +603,15 @@ If you are using C++, you need to include the new `level.hpp` header file in `ni
 
 #include "assets.hpp"
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp %}
 
 ### Rendering the level
 
 Currently, our platform tile indices are stored in `level_data.platforms` in the `Level` class, so we can iterate through this array to get the index of each tile we need to render. We use 255 (hex value `0xff`) as the value representing a blank tile, so we'll need to add this to our constants file:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 // Add our new constant variable at the end of the pre-existing Sprites namespace
@@ -578,7 +622,9 @@ namespace Sprites {
     const uint8_t BLANK_TILE = 0xff;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 // Add our new constant variable at the end of the pre-existing Sprites namespace
@@ -589,7 +635,9 @@ namespace Sprites {
     const uint8_t BLANK_TILE = 0xff;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # constants.py
 
 # Add our new constant variable at the end of the pre-existing Sprites class
@@ -599,6 +647,8 @@ class Sprites:
     # A blank tile is represented by 0xff in the level arrays
     BLANK_TILE = 0xff
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 Our `platforms` array is one-dimensional, so we need to convert an point `(x, y)` into an index in this array. We can do this using the formula:
 
@@ -608,7 +658,8 @@ The `width` variable must be measured in tile units, instead of pixels, so we wi
 
 We have all the constants we need, so we can add our rendering code to the start of the `render` function in our `Level` class:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // level.cpp, at the start of the render function
 
 // Render platform tiles
@@ -626,7 +677,9 @@ for (uint8_t y = 0; y < Constants::GAME_HEIGHT_TILES; y++) {
     }
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // level.cpp, at the start of the render function
 
 // Render platform tiles
@@ -643,7 +696,9 @@ for (uint8_t y = 0; y < Constants::GAME_HEIGHT_TILES; y++) {
     }
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # level.py, at the start of the render function
 
 # Render platform tiles
@@ -657,6 +712,8 @@ for y in range(Constants.GAME_HEIGHT_TILES):
         if tile_id != Constants.Sprites.BLANK_TILE:
             sprite(tile_id, x * Constants.SPRITE_SIZE + Constants.GAME_OFFSET_X, y * Constants.SPRITE_SIZE + Constants.GAME_OFFSET_Y)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 When you run the code, the player should behave as before, but the platform tiles are now present:
 
@@ -672,7 +729,7 @@ The 32blit has a wider screen than the PicoSystem, so we have to add borders in 
 
 We will create a new method in the `Level` class where we can put our border-rendering code:
 
-```C++
+```cpp
 // level.hpp
 
 // ...
@@ -752,7 +809,8 @@ We will add a function to the `Ninja` class which will handle the collision dete
 
 Firstly, we will add the empty `handle_collisions` and `handle_platform` functions in the `Ninja` class:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.hpp
 
 class Ninja {
@@ -767,7 +825,9 @@ private:
     void handle_platform(Constants::LevelData& level_data, uint8_t x, uint8_t y);
 };
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.hpp
 
 class Ninja {
@@ -782,7 +842,9 @@ private:
     void handle_platform(Constants::LevelData& level_data, uint8_t x, uint8_t y);
 };
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 class Ninja:
@@ -794,6 +856,8 @@ class Ninja:
     def handle_platform(self, level_data, x, y):
         pass
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 If you are using C++, you will also need to add the empty function definitions in the source file:
 
@@ -813,7 +877,8 @@ void Ninja::handle_platform(Constants::LevelData& level_data, uint8_t x, uint8_t
 
 We now need to update the parameters of any functions which call these new functions, to provide access to `level_data`:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // In ninja.hpp and player_ninja.hpp
 // In ninja.cpp and player_ninja.cpp
 
@@ -834,7 +899,9 @@ player.update(dt);
 // With:
 player.update(dt, level_data);
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // In ninja.hpp and player_ninja.hpp
 // In ninja.cpp and player_ninja.cpp
 
@@ -855,7 +922,9 @@ player.update(dt);
 // With:
 player.update(dt, level_data);
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # In ninja.py and player_ninja.py
 
 # Modify the update function definition to have the following signature:
@@ -875,12 +944,15 @@ self.player.update(dt)
 # With:
 self.player.update(dt, self.level_data)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 > If you are using C++, make sure that you modify the `update` function parameters in the source files as well as the header files.
 
 Finally, we can call the (empty) collision handling code from the `update` function in the `Ninja` class. The function should now look like this:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::update(float dt, Constants::LevelData& level_data) {
@@ -903,7 +975,9 @@ void Ninja::update(float dt, Constants::LevelData& level_data) {
     }
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::update(float dt, Constants::LevelData& level_data) {
@@ -926,7 +1000,9 @@ void Ninja::update(float dt, Constants::LevelData& level_data) {
     }
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 def update(self, dt, level_data):
@@ -947,6 +1023,8 @@ def update(self, dt, level_data):
     elif self.velocity_x > 0:
         self.facing_direction = Ninja.HorizontalDirection.RIGHT
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 ### Collision detection
 
@@ -973,7 +1051,8 @@ For the ninja sprite, it is slightly more complex, because the sprite does not f
 
 We will add these constants inside a new namespace (or class in Python) called `Ninja`:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 // Generic ninja data such as size
@@ -985,7 +1064,9 @@ namespace Ninja {
     const uint8_t BORDER = (SPRITE_SIZE - WIDTH) / 2;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 // Generic ninja data such as size
@@ -997,7 +1078,9 @@ namespace Ninja {
     const uint8_t BORDER = (SPRITE_SIZE - WIDTH) / 2;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # constants.py
 
 # Generic ninja data such as size
@@ -1008,6 +1091,8 @@ class Ninja:
     # The gap between the edge of the sprite and the edge of the ninja on each side
     BORDER = (SPRITE_SIZE - WIDTH) // 2
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 We can calculate the location of each edge of a tile and a ninja sprite, so we could write a function which checks for a collision between these two objects. However, we will also need to detect collisions between the player and the coins later on, so we will make the function more generic by taking a parameter specifying the width of the square to check for a collision with.
 
@@ -1022,7 +1107,8 @@ position_y < object_y + object_size
 
 The new function will be added to our `Ninja` class:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.hpp
 
 // ...
@@ -1037,7 +1123,9 @@ protected:
     // ...
 };
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.hpp
 
 // ...
@@ -1052,7 +1140,9 @@ protected:
     // ...
 };
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 # ...
@@ -1066,6 +1156,8 @@ class Ninja:
                 self.position_y + Constants.SPRITE_SIZE > object_y and
                 self.position_y < object_y + object_size)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 > In C++, you can use overloading to define multiple functions with the same name, but different parameters. Although our collision detection function will assume that objects are square, you could also write an overloaded version which takes the width and height of the other object.
 >
@@ -1092,7 +1184,8 @@ The position of the top left of these four tiles can be calculated by dividing t
 
 When the player is near the edge of the game area, we must ensure that we do not try to access tiles which do not exist. Our code will be added to the `handle_collisions` method in the `Ninja` class. It checks that the visible player image is within the game area, and if they are at the edge, it only checks the tiles which are within the game area:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::handle_collisions(Constants::LevelData& level_data) {
@@ -1125,7 +1218,9 @@ void Ninja::handle_collisions(Constants::LevelData& level_data) {
     }
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::handle_collisions(Constants::LevelData& level_data) {
@@ -1158,7 +1253,9 @@ void Ninja::handle_collisions(Constants::LevelData& level_data) {
     }
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 def handle_collisions(self, level_data):
@@ -1185,12 +1282,15 @@ def handle_collisions(self, level_data):
                 # Handle platforms
                 self.handle_platform(level_data, new_x, new_y)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 In the `handle_platform` function, we will need to calculate the actual position of the tile (the function receives the grid position), by multiplying the grid position by `SPRITE_SIZE`. We can then pass this position to our `check_colliding` (or `check_object_colliding`) function, in order to determine if the collision resolution code should be called. We will also check that the tile is not an empty tile by fetching the tile's sprite index from `level_data.platforms`.
 
 Our `handle_platform` function in the `Ninja` class should now look like this:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::handle_platform(Constants::LevelData& level_data, uint8_t x, uint8_t y) {
@@ -1211,7 +1311,9 @@ void Ninja::handle_platform(Constants::LevelData& level_data, uint8_t x, uint8_t
     }
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::handle_platform(Constants::LevelData& level_data, uint8_t x, uint8_t y) {
@@ -1232,7 +1334,9 @@ void Ninja::handle_platform(Constants::LevelData& level_data, uint8_t x, uint8_t
     }
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 def handle_platform(self, level_data, x, y):
@@ -1251,6 +1355,8 @@ def handle_platform(self, level_data, x, y):
             # Our collision resolution code will be put here
             pass
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 > In this tutorial, the term "grid position" refers to the position of a tile in the 15x15 grid of possible tile positions. It is measured in tiles, rather than pixels - in order to convert it into the "actual position" of the tile (measured in pixels), we multiple it by the width of a tile in pixels (`SPRITE_SIZE`).
 
@@ -1264,7 +1370,8 @@ Before we get started on resolving collisions with our platforms, we will begin 
 
 We will add this code to the `update` function in the `Ninja` class. The function should now look like this:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::update(float dt, Constants::LevelData& level_data) {
@@ -1295,7 +1402,9 @@ void Ninja::update(float dt, Constants::LevelData& level_data) {
     }
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::update(float dt, Constants::LevelData& level_data) {
@@ -1326,7 +1435,9 @@ void Ninja::update(float dt, Constants::LevelData& level_data) {
     }
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 def update(self, dt, level_data):
@@ -1354,6 +1465,8 @@ def update(self, dt, level_data):
     elif self.velocity_x > 0:
         self.facing_direction = Ninja.HorizontalDirection.RIGHT
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 > Remember that the left edge of the player is given by `position_x + BORDER`, and the right edge is given by `position_x + BORDER + WIDTH`. In the code, these are rearranged slightly so that only `position_x` is on the left side of the equations and comparisons.
 
@@ -1367,7 +1480,8 @@ In order to resolve collisions with the platform tiles, we will find the tile ed
 
 Inside the `handle_platform` function, replace the placeholder comment with the following collision resolution code:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.cpp, inside handle_platform
 
 // Resolve collision by finding the direction with the least intersection
@@ -1442,7 +1556,9 @@ default:
     break;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.cpp, inside handle_platform
 
 // Resolve collision by finding the direction with the least intersection
@@ -1517,7 +1633,9 @@ default:
     break;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py, inside handle_platform
 
 # Resolve collision by finding the direction with the least intersection
@@ -1579,6 +1697,8 @@ elif direction == 3:
     self.position_y += least_intersection
     self.velocity_y = 0
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 When we move the player to the edge of the tile they collided with, we also set their x or y velocity to 0 (depending on whether they collided with the sides of a tile or the top/bottom). This ensures that they cannot travel through tiles, or build up velocity over time. This is particularly important for the vertical velocity, since the player is always accelerating due to gravity, which would result in extremely high downward velocities if it was never reset.
 

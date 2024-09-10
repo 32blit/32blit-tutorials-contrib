@@ -12,7 +12,7 @@
 * [Episode 2 - Making the player move](ninja-thief/episode-2.md)
 * [Episode 3 - Adding levels and platforms](ninja-thief/episode-3.md)
 * [Episode 4 - Adding ladders and enemies](ninja-thief/episode-4.md)
-* [Episode 5 - Title](ninja-thief/episode-5.md)
+* [Episode 5 - Final touches](ninja-thief/episode-5.md)
 
 ## Other guides
 

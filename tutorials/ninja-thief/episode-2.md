@@ -10,23 +10,30 @@ At the end of this episode, the player will be able to move left and right, usin
 
 The SDKs allow us to access the current state of the buttons, by calling the `button` function (or `pressed` for 32blit), and providing the button we want to check as a parameter:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // Check if button A is pressed
 if (pressed(Button::A)) {
     // Do something
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // Check if button A is pressed
 if (button(A)) {
     // Do something
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # Check if button A is pressed
 if button(A):
     # Do something
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 > The PicoSystem SDK also allows us to check if a button has *just* been pressed (since the last frame). To do this, we can use the `pressed` function, in the same way as we used the `button` function.
 
@@ -34,7 +41,8 @@ if button(A):
 
 The different buttons you can access are:
 
-```cpp 32blit
+{% capture 32blitcpp %}
+```cpp
 // D-pad buttons:
 Button::DPAD_UP
 Button::DPAD_DOWN
@@ -51,7 +59,9 @@ Button::MENU
 Button::HOME
 Button::JOYSTICK
 ```
-```cpp PicoSystem
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // D-pad buttons:
 UP
 DOWN
@@ -64,6 +74,8 @@ B
 X
 Y
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CMP=picosystemcpp %}
 
 ## The `Ninja` class
 
@@ -88,7 +100,8 @@ In order to store the position and velocity of a ninja, we need to track both th
 
 To start off with, create a new file in `include/` called `ninja.hpp` (or `ninja.py` for Python):
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.hpp
 
 #pragma once
@@ -112,7 +125,9 @@ protected:
     float velocity_y = 0.0f;
 };
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.hpp
 
 #pragma once
@@ -136,7 +151,9 @@ protected:
     float velocity_y = 0.0f;
 };
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 import constants as Constants
@@ -156,10 +173,13 @@ class Ninja:
     def render(self):
         pass
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 If you are using C++, you also need to create a new file in `src/` called `ninja.cpp`, where we will define our member functions (which are empty for now):
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.cpp
 
 #include "ninja.hpp"
@@ -182,7 +202,9 @@ void Ninja::render() {
 
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.cpp
 
 #include "ninja.hpp"
@@ -205,6 +227,8 @@ void Ninja::render() {
 
 }
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp %}
 
 > Whenever you create a new **source** (`.cpp`) file in C++, don't forget to add it to the `PROJECT_SOURCES` variable in `CMakeLists.txt`!
 <!-- TODO: Maybe explain how to add it if there is currently only a single file in the PROJECT_SOURCES variable. -->
@@ -223,7 +247,8 @@ $$distance = speed \times time$$
 
 The exact method of calculating the change in time between frames is different for each combination of device and language, but the result is the same. We will calculate `dt` in the `update` function in `ninja_thief.cpp` (or `ninja_thief.py` for Python users), so that we can pass it into any function which needs it:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja_thief.cpp
 
 // Outside of our functions, just after the includes
@@ -237,7 +262,9 @@ void update(uint32_t time) {
     last_time = time;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja_thief.cpp
 
 // Outside of our functions, just after the includes
@@ -252,7 +279,9 @@ void update(uint32_t tick) {
     last_time = time();
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja_thief.py
 
 # We need to import the functions we'll be using for time measurement:
@@ -271,12 +300,15 @@ def update(tick):
     dt = ticks_diff(ticks_ms(), last_time) / 1000
     last_time = ticks_ms()
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 When the game first starts, the value calculated for `dt` may be very large. This is because we set `last_time` to zero, but the value for the current time is measured from when the device is turned on. In addition, while the system menu is open on the 32blit, the `update` function is not called. This may result in the time since the last frame being very large, and hence `dt` may be very large.
 
 To solve both these issues, we can limit `dt` to a maximum value. We will use 0.05 as the maximum value, which corresponds to a minimum framerate of 20 fps. Add the following code after the calculation of `dt` (in the `update` function):
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja_thief.cpp
 
 // At the end of the update function
@@ -286,7 +318,9 @@ if (dt > 0.05f) {
     dt = 0.05f;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja_thief.cpp
 
 // At the end of the update function
@@ -296,7 +330,9 @@ if (dt > 0.05f) {
     dt = 0.05f;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja_thief.py
 
 # At the end of the update function
@@ -305,12 +341,15 @@ if (dt > 0.05f) {
 if dt > 0.05:
     dt = 0.05
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 ### Updating the ninja
 
 Now that we know the change in time between frames and the velocity of the ninja, each frame we can calculate the number of pixels to move the ninja by. We'll add the following code to the `update` method of the `Ninja` class:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::update(float dt) {
@@ -319,7 +358,9 @@ void Ninja::update(float dt) {
     position_y += velocity_y * dt;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::update(float dt) {
@@ -328,7 +369,9 @@ void Ninja::update(float dt) {
     position_y += velocity_y * dt;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 def update(self, dt):
@@ -336,6 +379,8 @@ def update(self, dt):
     self.position_x += self.velocity_x * dt
     self.position_y += self.velocity_y * dt
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 ### Rendering the ninja
 
@@ -343,7 +388,8 @@ In order for us to see the results of our code, we need to draw the ninja to the
 
 We will store all our spritesheet indices in our constants file, along with the offset we need to apply to any sprites. We'll start using namespaces (or classes for Python) to group some of our constants by their purpose:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 // Offset of game area from top left corner
@@ -376,7 +422,9 @@ namespace Sprites {
     const uint8_t BORDER_RIGHT = 8;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 // Offset of game area from top left corner
@@ -404,7 +452,9 @@ namespace Sprites {
     const uint8_t GEM = 18;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # constants.py
 
 # Offset of game area from top left corner
@@ -431,10 +481,13 @@ class Sprites:
     COIN = 19
     GEM = 18
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 We won't worry about animation for now, but we will make the ninja face the direction they are travelling. In order to change the direction our sprite is facing, we can use an additional parameter in the `sprite` function - the direction to flip the sprite:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // Facing right
 screen.sprite(Constants::Sprites::PLAYER_IDLE, Point(50, 50));
 
@@ -444,7 +497,9 @@ screen.sprite(Constants::Sprites::PLAYER_IDLE, Point(50, 50), SpriteTransform::N
 // Facing left
 screen.sprite(Constants::Sprites::PLAYER_IDLE, Point(50, 50), SpriteTransform::HORIZONTAL);
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // Facing right
 sprite(Constants::Sprites::PLAYER_IDLE, 50, 50);
 
@@ -454,7 +509,9 @@ sprite(Constants::Sprites::PLAYER_IDLE, 50, 50, 1, 1, Constants::SPRITE_SIZE, Co
 // Facing left
 sprite(Constants::Sprites::PLAYER_IDLE, 50, 50, 1, 1, Constants::SPRITE_SIZE, Constants::SPRITE_SIZE, HFLIP);
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # Facing right
 sprite(Constants.Sprites.PLAYER_IDLE, 50, 50)
 
@@ -464,6 +521,8 @@ sprite(Constants.Sprites.PLAYER_IDLE, 50, 50, 1, 1, Constants.SPRITE_SIZE, Const
 # Facing left
 sprite(Constants.Sprites.PLAYER_IDLE, 50, 50, 1, 1, Constants.SPRITE_SIZE, Constants.SPRITE_SIZE, HFLIP)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 > For the PicoSystem SDK, there isn't a predefined constant to specify no transformation - a zero is used for this instead. You may have also noticed that there are a lot more parameters in some of the calls to the PicoSystem SDK's `sprite` function. This is because the transformation flag is the last of several optional parameters (which specify the number of sprites across and down, along with the width and height to stretch the image to).
 
@@ -471,7 +530,8 @@ Now that we know how to flip our sprites, we can start writing the code to draw 
 
 The direction of movement can be found by checking if `velocity_x` is positive or negative. If the player is moving right, we can display the sprite normally - otherwise, we need to flip it horizontally. We can now add the following code to the `render` function in our `Ninja` class:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::render() {
@@ -481,7 +541,9 @@ void Ninja::render() {
     screen.sprite(Constants::Sprites::PLAYER_IDLE, Point(std::round(position_x) + Constants::GAME_OFFSET_X, std::round(position_y) + Constants::GAME_OFFSET_Y), transform);
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::render() {
@@ -496,7 +558,9 @@ void Ninja::render() {
     sprite(Constants::Sprites::PLAYER_IDLE, std::round(position_x) + Constants::GAME_OFFSET_X, std::round(position_y) + Constants::GAME_OFFSET_Y, 1, 1, Constants::SPRITE_SIZE, Constants::SPRITE_SIZE, transform_flags);
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 def render(self):
@@ -510,6 +574,8 @@ def render(self):
     #  - height to stretch to (SPRITE_SIZE - i.e. don't stretch)
     sprite(Constants.Sprites.PLAYER_IDLE, round(self.position_x) + Constants.GAME_OFFSET_X, round(self.position_y) + Constants.GAME_OFFSET_Y, 1, 1, Constants.SPRITE_SIZE, Constants.SPRITE_SIZE, transform_flags)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 > If you're wondering why we use the `round` function, it's because we're storing the position of the ninja as floating-point numbers, but we need to render the sprite location as an integer. If we didn't round the position, it would be implicity casted to an integer, causing it to be truncated, which will result in the player sometimes "floating" one pixel above the platforms.
 
@@ -517,7 +583,8 @@ def render(self):
 
 In preparation for allowing the player sprite to move, we'll add some more values to our constants file:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 // Player data such as speeds
@@ -533,7 +600,9 @@ namespace Environment {
     const float GRAVITY_ACCELERATION = 375.0f;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 // Player data such as speeds
@@ -549,7 +618,9 @@ namespace Environment {
     const float GRAVITY_ACCELERATION = 375.0f;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # constants.py
 
 # Player data such as speeds
@@ -563,12 +634,15 @@ class Player:
 class Environment:
     GRAVITY_ACCELERATION = 375
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 ### The `PlayerNinja` class
 
 Now that we have a `Ninja` class, we can inherit from it to create the `PlayerNinja` class which we'll use for the player. To start off, create a new file in `include/` called `player_ninja.hpp` (or `player_ninja.py` if you're using Python):
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // player_ninja.hpp
 
 #pragma once
@@ -586,7 +660,9 @@ public:
     void update(float dt);
 };
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // player_ninja.hpp
 
 #pragma once
@@ -604,7 +680,9 @@ public:
     void update(float dt);
 };
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # player_ninja.py
 
 from ninja import Ninja
@@ -619,10 +697,13 @@ class PlayerNinja(Ninja):
     def update(self, dt):
         super().update(dt)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 If you're using C++, you'll also need to create a new file in `src/` called `player_ninja.cpp`, with the empty methods:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // player_ninja.cpp
 
 #include "player_ninja.hpp"
@@ -641,7 +722,9 @@ void PlayerNinja::update(float dt) {
     Ninja::update(dt);
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // player_ninja.cpp
 
 #include "player_ninja.hpp"
@@ -660,6 +743,8 @@ void PlayerNinja::update(float dt) {
     Ninja::update(dt);
 }
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp %}
 
 > You may have noticed that the `update` function isn't entirely empty: `Ninja::update(dt)` (or in Python, `super().update(dt)`) calls the `update` method in the parent class (which is `Ninja`). We need this because we want to call the code which updates the position of the sprite.
 
@@ -669,7 +754,8 @@ We've already learnt all the information we need to do this, so see if you can g
 
 Our `update` function should now look like this:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // player_ninja.cpp
 
 void PlayerNinja::update(float dt) {
@@ -688,7 +774,9 @@ void PlayerNinja::update(float dt) {
     Ninja::update(dt);
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // player_ninja.cpp
 
 void PlayerNinja::update(float dt) {
@@ -707,7 +795,9 @@ void PlayerNinja::update(float dt) {
     Ninja::update(dt);
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # player_ninja.py
 
 def update(self, dt):
@@ -724,30 +814,40 @@ def update(self, dt):
 
     super().update(dt)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 ### Creating an instance of the `PlayerNinja` class
 
 Now that we've got the class for our player sprite, let's temporarily create an instance of it to test it out. First, we will need to include the `player_ninja.hpp` (or `player_ninja.py`) file (we will remove this code later):
 
-```C++ 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja_thief.hpp
 
 #include "player_ninja.hpp"
 ```
-```C++ PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja_thief.hpp
 
 #include "player_ninja.hpp"
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja_thief.py
 
 from player_ninja import PlayerNinja
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 Now we can create an instance. In `ninja_thief.cpp` (or `ninja_thief.py`), add the following (temporary) lines:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja_thief.cpp
 
 // Outside the functions, just after the include statements
@@ -759,7 +859,9 @@ player.render();
 // In the update function, after the calculation of dt
 player.update(dt);
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja_thief.cpp
 
 // Outside the functions, just after the include statements
@@ -771,7 +873,9 @@ player.render();
 // In the update function, after the calculation of dt
 player.update(dt);
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja_thief.py
 
 # Outside the functions, just after the import statements
@@ -783,6 +887,8 @@ player.render()
 # In the update function, after the calculation of dt
 player.update(dt)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 > Now that we're drawing the player sprite via the `PlayerNinja` class, we don't need to draw the sprite directly in the main game's `render` function, so we can remove the call to the `sprite` function (otherwise we'll have two sprites).
 
@@ -800,28 +906,36 @@ $$velocity = acceleration \times time$$
 
 Gravity will affect both the player and the enemies, so we can add the code into the `update` function in the `Ninja` class:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.cpp
 
 // Before we update the position, update the velocity
 velocity_y += Constants::Environment::GRAVITY_ACCELERATION * dt;
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.cpp
 
 // Before we update the position, update the velocity
 velocity_y += Constants::Environment::GRAVITY_ACCELERATION * dt;
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 # Before we update the position, update the velocity
 self.velocity_y += Constants.Environment.GRAVITY_ACCELERATION * dt
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 When you run the code, you'll see that the player falls off the screen very quickly, and there's no way to get them back. In order to make our testing easier (particularly when we add jumping), we'll temporarily make the bottom of the screen solid. Add the following lines to the end of the `update` function in the `PlayerNinja` class:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // player_ninja.cpp, at the end of the update function
 
 // Temporary addition to stop player falling off bottom of screen
@@ -829,7 +943,9 @@ if (position_y > Constants::GAME_HEIGHT - Constants::SPRITE_SIZE) {
     position_y = Constants::GAME_HEIGHT - Constants::SPRITE_SIZE;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // player_ninja.cpp, at the end of the update function
 
 // Temporary addition to stop player falling off bottom of screen
@@ -837,13 +953,17 @@ if (position_y > Constants::GAME_HEIGHT - Constants::SPRITE_SIZE) {
     position_y = Constants::GAME_HEIGHT - Constants::SPRITE_SIZE;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # player_ninja.py, at the end of the update function
 
 # Temporary addition to stop player falling off bottom of screen
 if self.position_y > Constants.GAME_HEIGHT - Constants.SPRITE_SIZE:
     self.position_y = Constants.GAME_HEIGHT - Constants.SPRITE_SIZE
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 > Note that since `position_y` refers to the top of the ninja sprite, we need to subtract the sprite's height from the game height, in order to keep the lower edge of the sprite on the lower edge of the screen. It may be easier to think about the comparison as `position_y + SPRITE_SIZE > GAME_HEIGHT`, since `position_y + SPRITE_SIZE` is the y-coordinate of the lower edge of the sprite.
 
@@ -851,7 +971,8 @@ if self.position_y > Constants.GAME_HEIGHT - Constants.SPRITE_SIZE:
 
 We're now all set to add the ability to jump. Since both the player and the enemies may need to jump, we'll create a new function called `jump` in the `Ninja` class. This function will take a single parameter, `jump_speed`, which we can use to jump with different maximum heights depending on the situation.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.hpp
 
 class Ninja {
@@ -872,7 +993,9 @@ void Ninja::jump(float jump_speed) {
     velocity_y = -jump_speed;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.hpp
 
 class Ninja {
@@ -893,7 +1016,9 @@ void Ninja::jump(float jump_speed) {
     velocity_y = -jump_speed;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 # After all other function definitions (but still inside the Ninja class definition)
@@ -901,10 +1026,13 @@ def jump(self, jump_speed):
     # Upwards is negative
     self.velocity_y = -jump_speed
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 Now we can check if the player has just pressed the `A` button, and if so, call the `jump` function with the value stored in our constants file. The `update` function of our `PlayerNinja` class should now look like this:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // player_ninja.cpp
 
 void PlayerNinja::update(float dt) {
@@ -934,7 +1062,9 @@ void PlayerNinja::update(float dt) {
     }
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // player_ninja.cpp
 
 void PlayerNinja::update(float dt) {
@@ -964,7 +1094,9 @@ void PlayerNinja::update(float dt) {
     }
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # player_ninja.py
 
 def update(self, dt):
@@ -990,6 +1122,8 @@ def update(self, dt):
     if self.position_y > Constants.GAME_HEIGHT - Constants.SPRITE_SIZE:
         self.position_y = Constants.GAME_HEIGHT - Constants.SPRITE_SIZE
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 > Note that for 32blit, we don't have a function to check if a specific button has just been pressed. Instead, we check if the `Button::A` bit has been set on the `buttons.pressed` bitfield. This is why we use the binary AND (`&`), not the logical AND (`&&`).
 
@@ -1005,7 +1139,8 @@ While testing the game so far, you may have noticed that when the player is stat
 
 In order to fix this, we need to store the last direction the player was travelling in, and avoid updating it when the player is stationary. To do this we will add a new `enum` type to our `Ninja` class (in Python, we will use a class instead of an `enum`). We will also add a new variable called `facing_direction` to track the direction that the player sprite should be facing.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.hpp
 
 // ...
@@ -1030,7 +1165,9 @@ protected:
     HorizontalDirection facing_direction = HorizontalDirection::RIGHT;
 };
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.hpp
 
 // ...
@@ -1055,7 +1192,9 @@ protected:
     HorizontalDirection facing_direction = HorizontalDirection::RIGHT;
 };
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 # ...
@@ -1076,12 +1215,15 @@ class Ninja:
 
     # ...
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 > We have also added the unused `VerticalDirection` type, which will be needed by the enemies later on.
 
 We are now ready to update the value of `facing_direction` as long as `velocity_x` is not equal to zero. Add the following code to the end of the `update` method in the `Ninja` class:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.hpp, in update
 
 // Update direction the ninja is facing (only if the ninja is moving)
@@ -1092,7 +1234,9 @@ else if (velocity_x > 0.0f) {
     facing_direction = HorizontalDirection::RIGHT;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.hpp, in update
 
 // Update direction the ninja is facing (only if the ninja is moving)
@@ -1103,7 +1247,9 @@ else if (velocity_x > 0.0f) {
     facing_direction = HorizontalDirection::RIGHT;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 # Update direction the ninja is facing (only if the ninja is moving)
@@ -1113,11 +1259,14 @@ if self.velocity_x < 0:
 elif self.velocity_x > 0:
     self.facing_direction = Ninja.HorizontalDirection.RIGHT
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 Finally, we can modify the code in the `render` method so that the `facing_direction` variable is used to determine whether to flip the sprite horizontally. Your `render` function should now look like this:
 
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.hpp
 
 void Ninja::render() {
@@ -1127,7 +1276,9 @@ void Ninja::render() {
     screen.sprite(Constants::Sprites::PLAYER_IDLE, Point(std::round(position_x) + Constants::GAME_OFFSET_X, std::round(position_y) + Constants::GAME_OFFSET_Y), transform);
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.hpp
 
 void Ninja::render() {
@@ -1137,7 +1288,9 @@ void Ninja::render() {
     sprite(Constants::Sprites::PLAYER_IDLE, std::round(position_x) + Constants::GAME_OFFSET_X, std::round(position_y) + Constants::GAME_OFFSET_Y, 1, 1, Constants::SPRITE_SIZE, Constants::SPRITE_SIZE, transform_flags);
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 def render(self):
@@ -1146,6 +1299,8 @@ def render(self):
 
     sprite(Constants.Sprites.PLAYER_IDLE, round(self.position_x) + Constants.GAME_OFFSET_X, round(self.position_y) + Constants.GAME_OFFSET_Y, 1, 1, Constants.SPRITE_SIZE, Constants.SPRITE_SIZE, transform_flags)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 When you run the code, you should notice that when the player stops moving, they remain facing in the direction they were just travelling:
 

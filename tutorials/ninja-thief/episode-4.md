@@ -10,7 +10,8 @@ Currently, the player can jump at any time, even if they are not standing on a p
 
 Firstly, we need to define this variable in the class:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.hpp
 
 class Ninja {
@@ -23,7 +24,9 @@ protected:
     bool can_jump = false;
 };
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.hpp
 
 class Ninja {
@@ -36,7 +39,9 @@ protected:
     bool can_jump = false;
 };
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 class Ninja:
@@ -47,10 +52,13 @@ class Ninja:
 
         self.can_jump = False
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 We will set `can_jump` to false at the start of the `update` method, so that if a collision is detected with the top of a platform, it can then be set to true.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::update(float dt, Constants::LevelData& level_data) {
@@ -60,7 +68,9 @@ void Ninja::update(float dt, Constants::LevelData& level_data) {
     // ...
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::update(float dt, Constants::LevelData& level_data) {
@@ -70,7 +80,9 @@ void Ninja::update(float dt, Constants::LevelData& level_data) {
     // ...
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 def update(self, dt, level_data):
@@ -79,10 +91,13 @@ def update(self, dt, level_data):
 
     # ...
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 It is in the collision resolution stage (in the `handle_platform` method) that we decide which edge of the tile we collided with, so we will need to set `can_jump` to true at this point.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::handle_platform(Constants::LevelData& level_data, uint8_t x, uint8_t y) {
@@ -114,7 +129,9 @@ void Ninja::handle_platform(Constants::LevelData& level_data, uint8_t x, uint8_t
     }
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::handle_platform(Constants::LevelData& level_data, uint8_t x, uint8_t y) {
@@ -146,7 +163,9 @@ void Ninja::handle_platform(Constants::LevelData& level_data, uint8_t x, uint8_t
     }
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 def handle_platform(self, level_data, x, y):
@@ -172,10 +191,13 @@ def handle_platform(self, level_data, x, y):
 
             # ...
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 We can now use this `can_jump` flag in our `update` function of the `PlayerNinja` class, when we check to see if the player can jump. We will also remove our temporary code which stopped the player from falling off the bottom of the screen.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // player_ninja.cpp
 
 void PlayerNinja::update(float dt, Constants::LevelData& level_data) {
@@ -198,7 +220,9 @@ void PlayerNinja::update(float dt, Constants::LevelData& level_data) {
     // }
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // player_ninja.cpp
 
 void PlayerNinja::update(float dt, Constants::LevelData& level_data) {
@@ -221,7 +245,9 @@ void PlayerNinja::update(float dt, Constants::LevelData& level_data) {
     // }
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # player_ninja.py
 
 def update(self, dt, level_data):
@@ -238,6 +264,8 @@ def update(self, dt, level_data):
     # if self.position_y > Constants.GAME_HEIGHT - Constants.SPRITE_SIZE:
     #     self.position_y = Constants.GAME_HEIGHT - Constants.SPRITE_SIZE
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 If you now run the code, you will find that you can only jump if the player is on a platform - it is now impossible to reach the three upper platforms (once we add ladders, they will become accessible again). If you fall off a platform, you are no longer stopped at the bottom of the screen, but instead continue falling. Later on, we will reset the game when this happens.
 
@@ -253,7 +281,8 @@ In order to add ladders to our game, we need to add some information to our `LEV
 
 The `LevelData` data structure should now look like this:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 // Level data
@@ -265,7 +294,9 @@ struct LevelData {
     uint8_t extras[GAME_WIDTH_TILES * GAME_HEIGHT_TILES];
 };
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 // Level data
@@ -277,7 +308,9 @@ struct LevelData {
     uint8_t extras[GAME_WIDTH_TILES * GAME_HEIGHT_TILES];
 };
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # constants.py
 
 # Level data
@@ -292,10 +325,13 @@ class LevelData:
     def copy(self):
         return LevelData(self.platforms.copy(), self.extras.copy())
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 We can now add the additional data to our `LEVELS` array:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 const LevelData LEVELS[LEVEL_COUNT] = {
@@ -327,7 +363,9 @@ const LevelData LEVELS[LEVEL_COUNT] = {
     }
 };
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 const LevelData LEVELS[LEVEL_COUNT] = {
@@ -359,7 +397,9 @@ const LevelData LEVELS[LEVEL_COUNT] = {
     }
 };
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # constants.py
 
 LEVELS = [
@@ -391,6 +431,8 @@ LEVELS = [
     )
 ]
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 ### Rendering multiple tile arrays
 
@@ -398,7 +440,8 @@ Each of these arrays in the `LevelData` data structure needs to be rendered to t
 
 We will call this function `render_tiles`, and will add it to the `Level` class. It is very similar to the existing code to render the `platforms` array, except it renders any array which you pass into it.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // level.hpp
 
 class Level {
@@ -430,7 +473,9 @@ void Level::render_tiles(const uint8_t* tile_ids) {
     }
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // level.hpp
 
 class Level {
@@ -461,7 +506,9 @@ void Level::render_tiles(const uint8_t* tile_ids) {
     }
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # level.py
 
 class Level:
@@ -479,12 +526,15 @@ class Level:
                 if tile_id != Constants.Sprites.BLANK_TILE:
                     sprite(tile_id, x * Constants.SPRITE_SIZE + Constants.GAME_OFFSET_X, y * Constants.SPRITE_SIZE + Constants.GAME_OFFSET_Y)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 > For C++, we declare the parameter as a `const` array because we don't need to modify it. If we attempt to change or reassign a parameter which has been declared as `const`, the code will not compile.
 
 Now that we have written our `render_tiles` function, we can use it in the `render` function of the `Level` class. Make sure to delete the old code which rendered the platforms array.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // level.cpp
 
 void Level::render() {
@@ -500,7 +550,9 @@ void Level::render() {
     // ...
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // level.cpp
 
 void Level::render() {
@@ -516,7 +568,9 @@ void Level::render() {
     // ...
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # level.py
 
 def render(self):
@@ -531,6 +585,8 @@ def render(self):
 
     # ...
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 <!-- TODO: Could condense 32blit/PicoSystem C++ code in the above example, since they both appear to be identical? -->
 
@@ -549,7 +605,8 @@ In order for the game to respond differently when a player is using a ladder, we
 
 We will also need to add another flag to determine if it is possible for the player to start climbing a ladder. We will call this variable `can_climb`.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.hpp
 
 class Ninja {
@@ -571,7 +628,9 @@ protected:
     ClimbingState climbing_state = ClimbingState::NONE;
 };
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.hpp
 
 class Ninja {
@@ -593,7 +652,9 @@ protected:
     ClimbingState climbing_state = ClimbingState::NONE;
 };
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 class Ninja:
@@ -614,12 +675,15 @@ class Ninja:
 
         self.climbing_state = Ninja.ClimbingState.NONE
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 > The C++ code uses an `enum class` type so that the enumerators aren't brought into the global namespace (unlike with normal `enum` types). Instead, every time you reference one of our enumerators, you must qualify it with the `ClimbingState::` prefix.
 
 We need to know the speed with which to move the player when they are moving up or down a ladder, so we will add this information to the `Player` namespace (or class in Python) in our constants file:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 namespace Player {
@@ -628,7 +692,9 @@ namespace Player {
     const float CLIMBING_SPEED = 40.0f;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 namespace Player {
@@ -637,7 +703,9 @@ namespace Player {
     const float CLIMBING_SPEED = 40.0f;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # constants.py
 
 class Player:
@@ -645,10 +713,13 @@ class Player:
 
     CLIMBING_SPEED = 40
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 We will need to add a function similar to `handle_platform`, which checks for a collision between the player and a ladder tile, and then handles the climbing mechanic if necessary. We will call this function `handle_ladder`:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.hpp
 
 class Ninja {
@@ -664,7 +735,9 @@ private:
     void handle_ladder(Constants::LevelData& level_data, uint8_t x, uint8_t y);
 };
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.hpp
 
 class Ninja {
@@ -680,7 +753,9 @@ private:
     void handle_ladder(Constants::LevelData& level_data, uint8_t x, uint8_t y);
 };
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 class Ninja:
@@ -689,12 +764,15 @@ class Ninja:
     def handle_ladder(self, level_data, x, y):
         pass
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 In order to determine if it is possible for a player to be climbing a ladder, the player must be colliding with a ladder tile, and within a sufficient distance of the centre of the ladder. This small tolerance allows the player to climb a ladder even when they are not pixel-perfectly in line with it.
 
 If the player is climbing the ladder or is idle on it, their horizontal position is "locked" to the ladder's horizontal position, so that the player sprite visually lines up with the centre of the ladder.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::handle_ladder(Constants::LevelData& level_data, uint8_t x, uint8_t y) {
@@ -725,7 +803,9 @@ void Ninja::handle_ladder(Constants::LevelData& level_data, uint8_t x, uint8_t y
     }
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::handle_ladder(Constants::LevelData& level_data, uint8_t x, uint8_t y) {
@@ -756,7 +836,9 @@ void Ninja::handle_ladder(Constants::LevelData& level_data, uint8_t x, uint8_t y
     }
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 def handle_ladder(self, level_data, x, y):
@@ -782,12 +864,15 @@ def handle_ladder(self, level_data, x, y):
                     # Lock position to ladder
                     self.position_x = tile_x
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 Now that we have our `handle_ladder` function, we need to call it from within the `handle_collisions` function, just after the call to `handle_platform`. We will also reset the `can_climb` flag to false, ready for `handle_ladders` to update it as necessary.
 
 At the end of the `handle_collisions` function, we will reset `climbing_state` to `NONE` if the player cannot climb. If the player is currently on a ladder, we will set `can_jump` to true (since jumping can be used to get off a ladder). If they are climbing, their vertical velocity is then set to their climbing speed, with the sign changed depending on whether they are travelling up and down the ladder.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::handle_collisions(Constants::LevelData& level_data) {
@@ -833,7 +918,9 @@ void Ninja::handle_collisions(Constants::LevelData& level_data) {
     }
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::handle_collisions(Constants::LevelData& level_data) {
@@ -879,7 +966,9 @@ void Ninja::handle_collisions(Constants::LevelData& level_data) {
     }
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 def handle_collisions(self, level_data):
@@ -918,10 +1007,13 @@ def handle_collisions(self, level_data):
         elif self.climbing_state == Ninja.ClimbingState.DOWN:
             self.velocity_y = climbing_speed
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 To be able to test the ladders so far, we need to check if up or down have been pressed, and set the player's `climbing_state` accordingly (only if `can_climb` is true). The code will be added to the `update` function of the `Player` class:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // player_ninja.cpp
 
 void PlayerNinja::update(float dt, Constants::LevelData& level_data) {
@@ -951,7 +1043,9 @@ void PlayerNinja::update(float dt, Constants::LevelData& level_data) {
     // Call parent update method
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // player_ninja.cpp
 
 void PlayerNinja::update(float dt, Constants::LevelData& level_data) {
@@ -981,7 +1075,9 @@ void PlayerNinja::update(float dt, Constants::LevelData& level_data) {
     // Call parent update method
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # player_ninja.py
 
 def update(self, dt, level_data):
@@ -1009,6 +1105,8 @@ def update(self, dt, level_data):
 
     # Call parent update method
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 ### Fixing our ladders
 
@@ -1025,7 +1123,8 @@ We will fix these one by one - make sure to test the code after we solve each pr
 
 First up - gravity continues to act on the player while they are climbing. This is because we always accelerate the player at the start of the `update` function in the `Ninja` class. When the player is moving up or down a ladder, this is not as noticable because the vertical velocity is reset to the climbing velocity every frame (but you may have noticed that climbing up was slightly slower than climbing down). Fixing this bug is very simple - don't apply gravity if the player is on a ladder.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::update(float dt, Constants::LevelData& level_data) {
@@ -1041,7 +1140,9 @@ void Ninja::update(float dt, Constants::LevelData& level_data) {
     // ...
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::update(float dt, Constants::LevelData& level_data) {
@@ -1057,7 +1158,9 @@ void Ninja::update(float dt, Constants::LevelData& level_data) {
     // ...
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 def update(self, dt, level_data):
@@ -1071,10 +1174,13 @@ def update(self, dt, level_data):
 
     # ...
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 Next, we spotted that jumping while on a ladder does not properly disengage the player from the ladder. We made it possible to jump while on a ladder by setting `can_jump` to true, but we don't reset the `climbing_state` of the player when they jump. To fix this, we can add a single line to the `jump` function in the `Ninja` class. The function should now look like this:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::jump(float jump_speed) {
@@ -1084,7 +1190,9 @@ void Ninja::jump(float jump_speed) {
     climbing_state = ClimbingState::NONE;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::jump(float jump_speed) {
@@ -1094,7 +1202,9 @@ void Ninja::jump(float jump_speed) {
     climbing_state = ClimbingState::NONE;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 def jump(self, jump_speed):
@@ -1103,10 +1213,13 @@ def jump(self, jump_speed):
     # Reset climbing state when player jumps
     self.climbing_state = Ninja.ClimbingState.NONE
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 The next issue is that we can now *only* get off the ladder by jumping - instead, it would be nice if you could get off the ladder by climbing down to a solid platform (without a ladder in front of it). This requires modifying the `handle_platform` function, so that if we are standing on top of a platform, the `climbing_state` variable is set to `NONE`.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::handle_platform(Constants::LevelData& level_data, uint8_t x, uint8_t y) {
@@ -1141,7 +1254,9 @@ void Ninja::handle_platform(Constants::LevelData& level_data, uint8_t x, uint8_t
     }
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::handle_platform(Constants::LevelData& level_data, uint8_t x, uint8_t y) {
@@ -1176,7 +1291,9 @@ void Ninja::handle_platform(Constants::LevelData& level_data, uint8_t x, uint8_t
     }
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 def handle_platform(self, level_data, x, y):
@@ -1204,6 +1321,8 @@ def handle_platform(self, level_data, x, y):
 
             # ...
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 The last issue we spotted was that you cannot go up through a platform tile which has a ladder in front of it. There are several approaches we can take to fix this, and careful consideration is needed, since each will result in slightly different gameplay:
 
@@ -1217,7 +1336,8 @@ There are several ways that one-way platforms can be implemented. Ideally, the p
 
 In the `handle_platform` function, we will put the collision resolution code inside an if statement to check that it does not have a ladder in front of it. If a ladder does exist in front of the platform tile (and the player is not currently climbing a ladder), the platform is treated as a one-way platform.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::handle_platform(Constants::LevelData& level_data, uint8_t x, uint8_t y) {
@@ -1258,7 +1378,9 @@ void Ninja::handle_platform(Constants::LevelData& level_data, uint8_t x, uint8_t
     }
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::handle_platform(Constants::LevelData& level_data, uint8_t x, uint8_t y) {
@@ -1299,7 +1421,9 @@ void Ninja::handle_platform(Constants::LevelData& level_data, uint8_t x, uint8_t
     }
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 def handle_platform(self, level_data, x, y):
@@ -1333,30 +1457,39 @@ def handle_platform(self, level_data, x, y):
 
                 # ...
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 In the above code, we introduced a new constant called `ONE_WAY_PLATFORM_TOLERANCE`. This can be interpreted as the thickness of the platform when colliding from above. If the player travels more than this distance in one frame, they are likely to miss colliding with the platform entirely (this is most likely to occur on PicoSystem with MicroPython, as this combination often has the lowest framerates). We will define this value in our constants file:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 // The number of pixels by which a ninja can intersect a one-way platform,
 // while still being moved back to the top of the platform during collision resolution
 const uint8_t ONE_WAY_PLATFORM_TOLERANCE = 2;
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 // The number of pixels by which a ninja can intersect a one-way platform,
 // while still being moved back to the top of the platform during collision resolution
 const uint8_t ONE_WAY_PLATFORM_TOLERANCE = 2;
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # constants.py
 
 # The number of pixels by which a ninja can intersect a one-way platform,
 # while still being moved back to the top of the platform during collision resolution
 ONE_WAY_PLATFORM_TOLERANCE = 2
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 Now that we have fixed the issues with the ladders, you can run the code again to test that they are working. You should be able to climb up and down ladders, jump off them, travel on ladders through platform tiles, and get off a ladder when you reach the bottom of it.
 
@@ -1370,7 +1503,8 @@ The next feature we will add are enemies. To start off with, we will keep their 
 
 Our enemy sprites will have red (instead of blue) markings, but will also inherit from the `Ninja` class - this means we need a way of identifying which colour sprite to render. We can use an `enum` type to store the colour to be used, which can be set in the constructor:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.hpp
 
 class Ninja {
@@ -1391,7 +1525,9 @@ protected:
     Colour colour;
 };
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.hpp
 
 class Ninja {
@@ -1412,7 +1548,9 @@ protected:
     Colour colour;
 };
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 class Ninja:
@@ -1427,6 +1565,8 @@ class Ninja:
 
         # ...
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 The C++ constructor will now look like this:
 
@@ -1444,7 +1584,8 @@ We can now modify the `render` method of the `Ninja` class to choose which colou
 
 While we are modifying this function, we can also change it to render a different sprite if the player is climbing (if `climbing_state` is not `NONE`).
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::render() {
@@ -1466,7 +1607,9 @@ void Ninja::render() {
     screen.sprite(index, Point(std::round(position_x) + Constants::GAME_OFFSET_X, std::round(position_y) + Constants::GAME_OFFSET_Y), transform);
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::render() {
@@ -1493,7 +1636,9 @@ void Ninja::render() {
     sprite(index, std::round(position_x) + Constants::GAME_OFFSET_X, std::round(position_y) + Constants::GAME_OFFSET_Y, 1, 1, Constants::SPRITE_SIZE, Constants::SPRITE_SIZE, transform_flags);
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 def render(self):
     # If ninja is travelling left, flip the image horizontally (set the transform flags)
     transform_flags = 0 if self.facing_direction == Ninja.HorizontalDirection.RIGHT else HFLIP
@@ -1516,29 +1661,38 @@ def render(self):
     #  - height to stretch to (SPRITE_SIZE - i.e. don't stretch)
     sprite(index, round(self.position_x) + Constants.GAME_OFFSET_X, round(self.position_y) + Constants.GAME_OFFSET_Y, 1, 1, Constants.SPRITE_SIZE, Constants.SPRITE_SIZE, transform_flags)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 Finally, we need to update the `PlayerNinja` constructor to specify the colour of the player (blue):
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // player_ninja.cpp
 
 PlayerNinja::PlayerNinja(float x, float y) : Ninja(Colour::BLUE, x, y) {
 
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // player_ninja.cpp
 
 PlayerNinja::PlayerNinja(float x, float y) : Ninja(Colour::BLUE, x, y) {
 
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # player_ninja.py
 
 def __init__(self, x, y):
     super().__init__(Ninja.Colour.BLUE, x, y)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 When you run the code, you will notice that the ninja switches to a climbing image while on a ladder:
 
@@ -1554,7 +1708,8 @@ We will also create an empty function called `platform_ahead`, which we will use
 
 Create a new file called `enemy_ninja.hpp` (or `enemy_ninja.py`) and add the following code:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // enemy_ninja.hpp
 
 #pragma once
@@ -1589,7 +1744,9 @@ private:
     AIState ai_state = AIState::PATROLLING;
 };
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // enemy_ninja.hpp
 
 #pragma once
@@ -1624,7 +1781,9 @@ private:
     AIState ai_state = AIState::PATROLLING;
 };
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # enemy_ninja.py
 
 from random import random, choice
@@ -1654,6 +1813,8 @@ class EnemyNinja(Ninja):
     def tile_at_position(tile_array, x, y):
         return 0
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 > We could use the `HorizontalDirection` type for the `current_direction` variable, but this results in a lot of casting to and from integers (in C++), and makes the code slightly more complex.
 
@@ -1691,7 +1852,8 @@ Since we will want to specify spawn points for each enemy in the game, we will n
 
 The `LevelData` data structure should now look like this:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 // Level data
@@ -1706,7 +1868,9 @@ struct LevelData {
     uint8_t entity_spawns[GAME_WIDTH_TILES * GAME_HEIGHT_TILES];
 };
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 // Level data
@@ -1721,7 +1885,9 @@ struct LevelData {
     uint8_t entity_spawns[GAME_WIDTH_TILES * GAME_HEIGHT_TILES];
 };
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # constants.py
 
 # Level data
@@ -1739,10 +1905,13 @@ class LevelData:
     def copy(self):
         return LevelData(self.platforms.copy(), self.extras.copy(), self.entity_spawns.copy())
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 We can now add the additional data to our `LEVELS` array:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 const LevelData LEVELS[LEVEL_COUNT] = {
@@ -1779,7 +1948,9 @@ const LevelData LEVELS[LEVEL_COUNT] = {
     }
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 const LevelData LEVELS[LEVEL_COUNT] = {
@@ -1816,7 +1987,9 @@ const LevelData LEVELS[LEVEL_COUNT] = {
     }
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # constants.py
 
 LEVELS = [
@@ -1853,10 +2026,13 @@ LEVELS = [
     )
 ]
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 The enemies in the current level will be stored in an array in the `Level` class, so we need to define the empty array:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // level.hpp
 
 #pragma once
@@ -1879,7 +2055,9 @@ private:
     std::vector<EnemyNinja> enemies;
 };
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // level.hpp
 
 #pragma once
@@ -1902,7 +2080,9 @@ private:
     std::vector<EnemyNinja> enemies;
 };
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # level.py
 
 # Make sure to add this new import
@@ -1915,12 +2095,15 @@ class Level:
 
         self.enemies = []
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 In order to use the new entity spawn data, we will need to modify the constructor of the `Level` class to iterate through the `entity_spawns` array and create instances of our `EnemyNinja` class as needed. We will also locate the spawn point for the player and then instantiate the `Player` class (don't forget to remove the old instantiation line which we added for testing).
 
 Your constructor for the `Level` class should now look like this:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // level.cpp
 
 Level::Level(uint8_t _level_number) {
@@ -1953,7 +2136,9 @@ Level::Level(uint8_t _level_number) {
     }
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // level.cpp
 
 Level::Level(uint8_t _level_number) {
@@ -1984,7 +2169,9 @@ Level::Level(uint8_t _level_number) {
     }
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # level.py
 
 def __init__(self, level_number):
@@ -2013,10 +2200,13 @@ def __init__(self, level_number):
             elif spawn_id == Constants.Sprites.PLAYER_IDLE + Constants.Sprites.RED_OFFSET:
                 self.enemies.append(EnemyNinja(position_x, position_y))
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 We now need to make sure that we update and render each of the enemies which we store in the `enemies` array. Your `update` and `render` functions in the `Level` class should now look like this:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // level.cpp
 
 void Level::update(float dt) {
@@ -2054,7 +2244,9 @@ void Level::render() {
     screen.text("Score: 0", minimal_font, Point(2, 2));
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // level.cpp
 
 void Level::update(float dt) {
@@ -2089,7 +2281,9 @@ void Level::render() {
     text("Score: 0", 2, 2);
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # level.py
 
 def update(self, dt):
@@ -2121,6 +2315,8 @@ def render(self):
     # Render the placeholder score text
     text("Score: 0", 2, 2)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 If you run the code, you will see that enemy sprites are now drawn above several of the platforms:
 
@@ -2130,7 +2326,8 @@ If you run the code, you will see that enemy sprites are now drawn above several
 
 Before we can start coding the behaviour of the enemies, we need to add several constants which we will use during the rest of this episode. They will be created in a new namespace (or class for Python) called `Enemy`:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 // Enemy constants
@@ -2146,7 +2343,9 @@ namespace Enemy {
     const float CLIMB_NEXT_LADDER_CHANCE = 0.2f;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 // Enemy constants
@@ -2162,7 +2361,9 @@ namespace Enemy {
     const float CLIMB_NEXT_LADDER_CHANCE = 0.2f;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # constants.py
 
 # Enemy data
@@ -2177,10 +2378,13 @@ class Enemy:
     # Chance of climbing next ladder
     CLIMB_NEXT_LADDER_CHANCE = 0.2
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 Our patrol logic will be relatively simple: keep walking in one direction until you reach the edge, then turn around and carry on. We can convert this logic into code, and put it in the `update` function. At the end of this function, we need to call the `update` function in the parent `Ninja` class.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // enemy_ninja.cpp
 
 void EnemyNinja::update(float dt, Constants::LevelData& level_data) {
@@ -2196,7 +2400,9 @@ void EnemyNinja::update(float dt, Constants::LevelData& level_data) {
     Ninja::update(dt, level_data);
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // enemy_ninja.cpp
 
 void EnemyNinja::update(float dt, Constants::LevelData& level_data) {
@@ -2212,7 +2418,9 @@ void EnemyNinja::update(float dt, Constants::LevelData& level_data) {
     Ninja::update(dt, level_data);
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # enemy_ninja.py
 
 def update(self, dt, level_data):
@@ -2225,6 +2433,8 @@ def update(self, dt, level_data):
 
     super().update(dt, level_data)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 If you try out the code, the enemies walk to the edge of the platform and fall off. This is because we haven't written the implementation for our `platform_ahead` function - currently it always returns true, so the enemy always assumes there is a platform to walk onto.
 
@@ -2232,7 +2442,8 @@ If you try out the code, the enemies walk to the edge of the platform and fall o
 
 Later on, we will need to test for ladder tiles too, so we will first create a function called `tile_at_position`, which finds the spritesheet index of the tile which overlaps the given position. Dividing the coordinates by `SPRITE_SIZE` and then truncating gives us the grid position of the tile, and then we can look up the spritesheet index from the provided tile array:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // enemy_ninja.cpp
 
 uint8_t EnemyNinja::tile_at_position(const uint8_t* tile_array, float x, float y) {
@@ -2250,7 +2461,9 @@ uint8_t EnemyNinja::tile_at_position(const uint8_t* tile_array, float x, float y
     return tile_array[grid_y * Constants::GAME_WIDTH_TILES + grid_x];
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // enemy_ninja.cpp
 
 uint8_t EnemyNinja::tile_at_position(const uint8_t* tile_array, float x, float y) {
@@ -2268,7 +2481,9 @@ uint8_t EnemyNinja::tile_at_position(const uint8_t* tile_array, float x, float y
     return tile_array[grid_y * Constants::GAME_WIDTH_TILES + grid_x];
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # enemy_ninja.py
 
 def tile_at_position(self, tile_array, x, y):
@@ -2283,10 +2498,13 @@ def tile_at_position(self, tile_array, x, y):
     # If we've not returned yet, then it's safe to get the tile from the level data
     return tile_array[grid_y * Constants.GAME_WIDTH_TILES + grid_x]
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 We are now ready to write the code for our `platform_ahead` function. The hitbox with which we will test for a platform tile will be exactly `PLATFORM_DETECTION_WIDTH` wide, and it will be centred on the enemy. This means that the location we need to check will be offset from the enemy's centre by half the hitbox width in the current direction. Since the `current_direction` variable is `1` or `-1`, we can multiply it by the offset and then add it to the position of the enemy's centre.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // enemy_ninja.cpp
 
 bool EnemyNinja::platform_ahead(Constants::LevelData& level_data) {
@@ -2301,7 +2519,9 @@ bool EnemyNinja::platform_ahead(Constants::LevelData& level_data) {
     return tile_id != Constants::Sprites::BLANK_TILE;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // enemy_ninja.cpp
 
 bool EnemyNinja::platform_ahead(Constants::LevelData& level_data) {
@@ -2316,7 +2536,9 @@ bool EnemyNinja::platform_ahead(Constants::LevelData& level_data) {
     return tile_id != Constants::Sprites::BLANK_TILE;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # enemy_ninja.py
 
 def platform_ahead(self, level_data):
@@ -2330,6 +2552,8 @@ def platform_ahead(self, level_data):
     # Return true if the tile is a platform (i.e. isn't an empty tile)
     return tile_id != Constants.Sprites.BLANK_TILE
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 Now if you run the code, the enemies will patrol their platforms and change direction when they reach the edge:
 
@@ -2346,7 +2570,8 @@ We will write a function which detects which way the enemy can climb, although w
 
 With these assumptions in mind, we will create a new function called `ladder_above_or_below`. We will need to provide the direction to check for a ladder, which be of the `VerticalDirection` type. This function works in a similar way to `platform_ahead`.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // enemy_ninja.hpp
 
 class EnemyNinja : public Ninja {
@@ -2360,7 +2585,9 @@ private:
     // ...
 };
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // enemy_ninja.hpp
 
 class EnemyNinja : public Ninja {
@@ -2374,7 +2601,9 @@ private:
     // ...
 };
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # enemy_ninja.py
 
 class EnemyNinja(Ninja):
@@ -2391,6 +2620,8 @@ class EnemyNinja(Ninja):
         # Return true if the tile is a ladder
         return tile_id == Constants.Sprites.LADDER
 ``` 
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 If you are using C++, you also need to add the function definition in the source file:
 
@@ -2420,7 +2651,8 @@ In C++, `rand` returns an integer between 0 and `RAND_MAX` (which is defined in 
 
 We'll add a new function to our `EnemyNinja` class called `random_bool`, which returns true if a randomly generated number between 0 and 1 is less than the probability provided:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // enemy_ninja.hpp
 
 class EnemyNinja : public Ninja {
@@ -2434,7 +2666,9 @@ private:
     // ...
 };
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // enemy_ninja.hpp
 
 class EnemyNinja : public Ninja {
@@ -2448,7 +2682,9 @@ private:
     // ...
 };
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # enemy_ninja.py
 
 class EnemyNinja(Ninja):
@@ -2457,6 +2693,8 @@ class EnemyNinja(Ninja):
     def random_bool(self, probability):
         return random() < probability
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 If you are using C++, the definition needs to be added to the source file:
 
@@ -2495,7 +2733,8 @@ We will also need to add several include statements to `ninja_thief.hpp`, in ord
 
 We will need to add a new boolean to the `EnemyNinja` class, called `climb_next_ladder`. We will use this to determine if the enemy should climb the next ladder they come across:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // enemy_ninja.hpp
 
 class EnemyNinja : public Ninja {
@@ -2508,7 +2747,9 @@ private:
     bool climb_next_ladder = false;
 };
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // enemy_ninja.hpp
 
 class EnemyNinja : public Ninja {
@@ -2521,7 +2762,9 @@ private:
     bool climb_next_ladder = false;
 };
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # enemy_ninja.py
 
 class EnemyNinja(Ninja):
@@ -2531,6 +2774,8 @@ class EnemyNinja(Ninja):
         
         self.climb_next_ladder = False
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 We are now ready to use our `random_bool` function to check whether the enemy should climb the next ladder, along with our `ladder_above_or_below` function to check which way the enemy should climb. If `can_climb` and `climb_next_ladder` are both true, we will pick a random direction to climb in (if only one direction has a ladder, we have to go that way). If `can_climb` is false, we will keep calling our `random_bool` function to re-generate the `climb_next_ladder` variable.
 
@@ -2538,7 +2783,8 @@ We also need to remember to update our `ai_state` variable to keep track of when
 
 The `update` function for our `EnemyNinja` class should now look like this.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // enemy_ninja.cpp
 
 void EnemyNinja::update(float dt, Constants::LevelData& level_data) {
@@ -2594,7 +2840,9 @@ void EnemyNinja::update(float dt, Constants::LevelData& level_data) {
     }
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // enemy_ninja.cpp
 
 void EnemyNinja::update(float dt, Constants::LevelData& level_data) {
@@ -2650,7 +2898,9 @@ void EnemyNinja::update(float dt, Constants::LevelData& level_data) {
     }
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # enemy_ninja.py
 
 def update(self, dt, level_data):
@@ -2701,6 +2951,8 @@ def update(self, dt, level_data):
     if self.climbing_state == Ninja.ClimbingState.NONE:
         self.ai_state = EnemyNinja.AIState.PATROLLING
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 When you run the code, the enemies will patrol their platforms, and randomly decide to climb the ladders every so often:
 
@@ -2710,7 +2962,8 @@ When you run the code, the enemies will patrol their platforms, and randomly dec
 
 The enemies seem to climb very fast, so we will change their climbing speed to be slower. If the ninja's colour is red, it must be an enemy, so we can use the corresponding `CLIMBING_SPEED` constant. The line which needs to be modified is the `climbing_speed` assignment at the end of the `handle_collisions` function:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::handle_collisions(Constants::LevelData& level_data) {
@@ -2726,7 +2979,9 @@ void Ninja::handle_collisions(Constants::LevelData& level_data) {
     }
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::handle_collisions(Constants::LevelData& level_data) {
@@ -2742,7 +2997,9 @@ void Ninja::handle_collisions(Constants::LevelData& level_data) {
     }
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 def handle_collisions(self, level_data):
@@ -2756,6 +3013,8 @@ def handle_collisions(self, level_data):
 
         # ...
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 If you now run the code, you can see that the enemies climb the ladders more slowly:
 
