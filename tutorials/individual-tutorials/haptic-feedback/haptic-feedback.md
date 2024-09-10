@@ -7,6 +7,8 @@
 * [Summary](#summary)
 * [Taking it further](#taking-it-further)
 
+> ![C++](../../cpp_logo.svg#icon) Note that this tutorial is currently only available in C++
+
 ## Introduction
 
 In this tutorial, we'll look at the basics of adding haptic feedback to our games. Haptic feedback is a great way to add another level of immersion to your games, by providing physical feedback to the user, via rumbles and buzzes. Many games consoles use haptic feedback in their controllers, and it's even used in many mobile phones (for example, when you type on the virtual keyboard).

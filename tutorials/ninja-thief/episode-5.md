@@ -10,7 +10,8 @@ Every game needs an objective, along with something which adds difficulty in com
 
 The first feature we will add is the ability for coins and gems to be collected if the player is touching them. In preparation for this, we will need to add some more values to our constants file.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 // Data for "Collectables" (gems and coins), such as value of each
@@ -25,7 +26,9 @@ namespace Collectable {
     const uint8_t GEM_SCORE = 5;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 // Data for "Collectables" (gems and coins), such as value of each
@@ -40,7 +43,9 @@ namespace Collectable {
     const uint8_t GEM_SCORE = 5;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # constants.py
 
 # Data for "Collectables" (gems and coins), such as value of each
@@ -54,10 +59,13 @@ class Collectable:
     COIN_SCORE = 2
     GEM_SCORE = 5
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 We will need to create a function for coin and gem collision detection, which we will add to the `Ninja` class. It will be similar to the `handle_platform` and `handle_ladder` functions, although it only needs to be implemented in the `PlayerNinja` class. For this reason, the C++ code will declare it as `virtual`.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.hpp
 
 class Ninja {
@@ -74,7 +82,9 @@ private:
     virtual void handle_scoring(Constants::LevelData& level_data, uint8_t x, uint8_t y);
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.hpp
 
 class Ninja {
@@ -91,7 +101,9 @@ private:
     virtual void handle_scoring(Constants::LevelData& level_data, uint8_t x, uint8_t y);
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 import constants as Constants
@@ -103,6 +115,8 @@ class Ninja:
         # Only implemented by PlayerNinja
         pass
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 For C++, the definition of the function in the `Ninja` class will be empty:
 
@@ -116,7 +130,8 @@ void Ninja::handle_scoring(Constants::LevelData& level_data, uint8_t x, uint8_t 
 
 First of all, we will declare the overriding function in the `PlayerNinja` class. We will also add a new attribute to the class called `score`, which we will use to keep track of the points the player has collected in the current level.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // player_ninja.hpp
 
 class PlayerNinja : public Ninja {
@@ -129,7 +144,9 @@ private:
     uint8_t score = 0;
 };
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // player_ninja.hpp
 
 class PlayerNinja : public Ninja {
@@ -142,7 +159,9 @@ private:
     uint8_t score = 0;
 };
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # player_ninja.py
 
 from ninja import Ninja
@@ -158,10 +177,13 @@ class PlayerNinja(Ninja):
     def handle_scoring(self, level_data, x, y):
         pass
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 The `handle_scoring` function will check if the player is colliding with a coin or gem, and remove it from the level array if so. It will then increase the current score by the point value of the item collected (these point values are declared in the constants file).
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // player_ninja.cpp
 
 void PlayerNinja::handle_scoring(Constants::LevelData& level_data, uint8_t x, uint8_t y) {
@@ -196,7 +218,9 @@ void PlayerNinja::handle_scoring(Constants::LevelData& level_data, uint8_t x, ui
     }
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // player_ninja.cpp
 
 void PlayerNinja::handle_scoring(Constants::LevelData& level_data, uint8_t x, uint8_t y) {
@@ -231,7 +255,9 @@ void PlayerNinja::handle_scoring(Constants::LevelData& level_data, uint8_t x, ui
     }
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # player_ninja.py
 
 def handle_scoring(self, level_data, x, y):
@@ -262,10 +288,13 @@ def handle_scoring(self, level_data, x, y):
             # Remove item from level data
             level_data.extras[array_position] = Constants.Sprites.BLANK_TILE
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 Finally, we need to make the `Ninja` class call our new method from within its `handle_collisions` method:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::handle_collisions(Constants::LevelData& level_data) {
@@ -288,7 +317,9 @@ void Ninja::handle_collisions(Constants::LevelData& level_data) {
     // ...
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::handle_collisions(Constants::LevelData& level_data) {
@@ -311,7 +342,9 @@ void Ninja::handle_collisions(Constants::LevelData& level_data) {
     // ...
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 def handle_collisions(self, level_data):
@@ -330,6 +363,8 @@ def handle_collisions(self, level_data):
 
     # ...
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 If you now run the code, you will see that the coins and gems disappear when the player comes into contact with them:
 
@@ -341,7 +376,8 @@ You many notice that the "Score: 0" text doesn't update - it's still our placeho
 
 > In Python, the `score` attribute isn't private, so you could do `player.score` (without needing an extra method). In order to keep the code as similar as possible between languages, we will still create the getter function.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // player_ninja.hpp
 
 class PlayerNinja : public Ninja {
@@ -360,7 +396,9 @@ uint8_t PlayerNinja::get_score() {
     return score;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // player_ninja.hpp
 
 class PlayerNinja : public Ninja {
@@ -379,7 +417,9 @@ uint8_t PlayerNinja::get_score() {
     return score;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # player_ninja.py
 
 class PlayerNinja(Ninja):
@@ -388,10 +428,13 @@ class PlayerNinja(Ninja):
     def get_score(self):
         return self.score
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 We can now use this function in the `render` method of the `Level` class in order to get the score, and with this prepare a string which can be rendered. Don't forget to remove the old placeholder text which displayed "Score: 0".
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // level.cpp
 
 void Level::render() {
@@ -402,7 +445,9 @@ void Level::render() {
     screen.text(score_string, minimal_font, Point(2, 2));
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // level.cpp
 
 void Level::render() {
@@ -413,7 +458,9 @@ void Level::render() {
     text(score_string, 2, 2);
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # level.py
 
 def render(self):
@@ -423,6 +470,8 @@ def render(self):
     score_string = "Score: " + str(self.player.get_score())
     text(score_string, 2, 2)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 When you run the code, the game will run the same as before, but this time the score text now displays the points that the player has collected:
 
@@ -454,7 +503,8 @@ We can represent these states with an `enum` (in Python, we can use a `class` in
 
 We will add this to our `Level` class, along with the functions `level_failed` and `level_complete`:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // level.hpp
 
 class Level {
@@ -488,7 +538,9 @@ bool Level::level_complete() {
     return level_state == LevelState::COMPLETE;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // level.hpp
 
 class Level {
@@ -522,7 +574,9 @@ bool Level::level_complete() {
     return level_state == LevelState::COMPLETE;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # level.py
 
 class Level:
@@ -547,6 +601,8 @@ class Level:
     def level_complete(self):
         return self.level_state == Level.LevelState.COMPLETE
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 ### Detecting when the player has died
 
@@ -554,7 +610,8 @@ There are two ways the player can die: by falling off the bottom of the screen, 
 
 Before we can detect collisions between two ninja instances, we need to be able to access the position of each instance. To do this, we will add functions which return the x and y coordinates of the ninja:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.cpp
 
 float Ninja::get_x() {
@@ -565,7 +622,9 @@ float Ninja::get_y() {
     return position_y;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.cpp
 
 float Ninja::get_x() {
@@ -576,7 +635,9 @@ float Ninja::get_y() {
     return position_y;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 class Ninja:
@@ -588,6 +649,8 @@ class Ninja:
     def get_y(self):
         return self.position_y
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 The C++ function declarations also need to be added to the corresponding header file:
 
@@ -611,7 +674,8 @@ private:
 
 In order to detect collisions between the player and other enemy ninjas, we will add a `check_colliding` function to the `Ninja` class, which tests for an intersection between the two visible ninja images (in Python this function will be called `check_ninja_colliding`). This function will work in the same way as the `check_colliding` function (or `check_object_colliding` function for Python), but adapted for the shape of the visible ninja sprites.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.cpp
 
 bool Ninja::check_colliding(Ninja& ninja) {
@@ -624,7 +688,9 @@ bool Ninja::check_colliding(Ninja& ninja) {
             position_y < ninja_y + Constants::SPRITE_SIZE);
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.cpp
 
 bool Ninja::check_colliding(Ninja& ninja) {
@@ -637,7 +703,9 @@ bool Ninja::check_colliding(Ninja& ninja) {
             position_y < ninja_y + Constants::SPRITE_SIZE);
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 class Ninja:
@@ -650,6 +718,8 @@ class Ninja:
         return (self.position_x + Constants.SPRITE_SIZE - Constants.Ninja.BORDER > ninja_x + Constants.Ninja.BORDER and self.position_x + Constants.Ninja.BORDER < ninja_x + Constants.SPRITE_SIZE - Constants.Ninja.BORDER and
                 self.position_y + Constants.SPRITE_SIZE > ninja_y and self.position_y < ninja_y + Constants.SPRITE_SIZE)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 If you are using C++, you also need to add function declaration to the header file:
 
@@ -678,7 +748,8 @@ At the same time as adding these checks, we will move the current update code in
 
 The `update` function in the `Level` class should now look like this:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // level.cpp
 
 void Level::update(float dt) {
@@ -710,7 +781,9 @@ void Level::update(float dt) {
     }
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // level.cpp
 
 void Level::update(float dt) {
@@ -742,7 +815,9 @@ void Level::update(float dt) {
     }
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # level.py
 
 def update(self, dt):
@@ -762,6 +837,8 @@ def update(self, dt):
             # Player has gone off the bottom of the screen, so they're dead
             self.level_state = Level.LevelState.FAILED
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 ### Detecting when a level is completed
 
@@ -769,7 +846,8 @@ A level is completed when there are no coins remaining. To signify this, we can 
 
 In order to detect when a level is completed, we will need to create a function called `coins_left` which counts the number of coins remaining. We can iterate through the `level_data.extras` array and use a variable to track the number of coins we encounter:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // level.hpp
 
 class Level {
@@ -796,7 +874,9 @@ uint8_t Level::coins_left() {
     return total;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // level.hpp
 
 class Level {
@@ -823,7 +903,9 @@ uint8_t Level::coins_left() {
     return total;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # level.py
 
 class Level:
@@ -838,10 +920,13 @@ class Level:
 
         return total
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 We can now call this function each frame, and if there are no coins remaining, we can update the `level_state` variable accordingly:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // level.cpp
 
 void Level::update(float dt) {
@@ -865,7 +950,9 @@ void Level::update(float dt) {
     }
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // level.cpp
 
 void Level::update(float dt) {
@@ -889,7 +976,9 @@ void Level::update(float dt) {
     }
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # level.py
 
 def update(self, dt):
@@ -903,12 +992,15 @@ def update(self, dt):
 
         # ...
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 ### Creating new `Level` instances
 
 When we add multiple levels to our game, we will need to keep track of which level the player is currently on. This is necessary for us to be able to select the correct level when we need to restart a level or move on to the next one. The current level number is stored in the `Level` class, so we will add a getter function to access it:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // level.hpp
 
 class Level {
@@ -927,7 +1019,9 @@ uint8_t Level::get_level_number() {
     return level_number;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // level.hpp
 
 class Level {
@@ -946,7 +1040,9 @@ uint8_t Level::get_level_number() {
     return level_number;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # level.py
 
 class Level:
@@ -955,12 +1051,15 @@ class Level:
     def get_level_number(self):
         return self.level_number
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 In the `update` function of our main game code, we need to check if the level is completed or failed, and handle the result accordingly. If the level was completed, the next level number can be calculated by adding one to the current level number. However, when the final level is completed, we would then attempt to load the next level, which doesn't exist. To avoid this, we will use the modulo operator (`%`) to wrap the level number around, so that it is always below the `LEVEL_COUNT` constant.
 
 > To improve the game, instead of sending the player back to the first level once they have completed all the levels, a screen congratulating the player could be displayed, before allowing them to return to the main menu.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja_thief.cpp
 
 void update(uint32_t time) {
@@ -983,7 +1082,9 @@ void update(uint32_t time) {
     }
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja_thief.cpp
 
 void update(uint32_t tick) {
@@ -1006,7 +1107,9 @@ void update(uint32_t tick) {
     }
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja_thief.py
 
 def update(tick):
@@ -1029,6 +1132,8 @@ def update(tick):
 
         level = Level(level_number)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 > In the Python code, we need to declare `level` as a global variable because we are now re-assigning it when we create a new instance of the `Level` class.
 
@@ -1040,7 +1145,8 @@ When you run the code, you will notice that the level instantly resets if you di
 
 In order to make it more obvious when the player dies by touching an enemy, we will make the player jump and fall off the screen, similar to the death animation in Super Mario Bros. This will require adding a variable to the `Ninja` class called `dead`:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.hpp
 
 class Ninja {
@@ -1057,7 +1163,9 @@ private:
     // ...
 };
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.hpp
 
 class Ninja {
@@ -1074,7 +1182,9 @@ private:
     // ...
 };
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 class Ninja:
@@ -1085,10 +1195,13 @@ class Ninja:
 
         self.dead = False
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 The collision detection and resolution code should only be called if `dead` is false, so that the player can fall through platforms during the death animation. We can achieve this by encasing the call to `handle_collisions` in an if-statement:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::update(float dt, Constants::LevelData& level_data) {
@@ -1102,7 +1215,9 @@ void Ninja::update(float dt, Constants::LevelData& level_data) {
     // ...
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // ninja.cpp
 
 void Ninja::update(float dt, Constants::LevelData& level_data) {
@@ -1116,7 +1231,9 @@ void Ninja::update(float dt, Constants::LevelData& level_data) {
     // ...
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # ninja.py
 
 def update(self, dt, level_data):
@@ -1128,10 +1245,13 @@ def update(self, dt, level_data):
 
     # ...
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 Since the `dead` variable is private, we will also need to add a `set_dead` function which can be called when the ninja dies. It is only possible for the player to die, so we will add the function to the `PlayerNinja` class. In this function, we will call the `jump` function, so that the player jumps before falling through the platforms.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // player_ninja.hpp
 
 class PlayerNinja : public Ninja {
@@ -1151,7 +1271,9 @@ void PlayerNinja::set_dead() {
     jump(Constants::Player::DEATH_JUMP_SPEED);
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // player_ninja.hpp
 
 class PlayerNinja : public Ninja {
@@ -1171,7 +1293,9 @@ void PlayerNinja::set_dead() {
     jump(Constants::Player::DEATH_JUMP_SPEED);
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # player_ninja.py
 
 class PlayerNinja(Ninja):
@@ -1181,10 +1305,13 @@ class PlayerNinja(Ninja):
         self.dead = True
         self.jump(Constants.Player.DEATH_JUMP_SPEED)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 We've introduced a new constant called `DEATH_JUMP_SPEED` because we want to separate the normal jump height of the player from the jump height when they die. We will make the death jump height slightly less than the normal jump height:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 namespace Player {
@@ -1195,7 +1322,9 @@ namespace Player {
     // ...
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 namespace Player {
@@ -1206,7 +1335,9 @@ namespace Player {
     // ...
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # constants.py
 
 class Player:
@@ -1216,10 +1347,13 @@ class Player:
 
     # ...
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 While our death animation is running, we don't want the enemies to update or move, but we still need to move the player. For this reason, if the player touches an enemy, we will set the level state to `PLAYER_DEAD`, and only set it to `FAILED` when the player falls off the screen at the end of the animation. This will require us to add a new case to our `switch` statement:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // level.cpp
 
 void Level::update(float dt) {
@@ -1261,7 +1395,9 @@ void Level::update(float dt) {
     }
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // level.cpp
 
 void Level::update(float dt) {
@@ -1303,7 +1439,9 @@ void Level::update(float dt) {
     }
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # level.py
 
 def update(self, dt):
@@ -1331,10 +1469,13 @@ def update(self, dt):
             # Player has gone off the bottom of the screen, so we can reset the level
             self.level_state = Level.LevelState.FAILED
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 Finally, we need to disable the controls while the death animation is being shown. This requires much of the `update` function in `PlayerNinja` to be encased in an if-statement. The function should now look like this:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // player_ninja.cpp
 
 void PlayerNinja::update(float dt, Constants::LevelData& level_data) {
@@ -1381,7 +1522,9 @@ void PlayerNinja::update(float dt, Constants::LevelData& level_data) {
     Ninja::update(dt, level_data);
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // player_ninja.cpp
 
 void PlayerNinja::update(float dt, Constants::LevelData& level_data) {
@@ -1429,7 +1572,9 @@ void PlayerNinja::update(float dt, Constants::LevelData& level_data) {
     Ninja::update(dt, level_data);
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # player_ninja.py
 
 def update(self, dt, level_data):
@@ -1470,6 +1615,8 @@ def update(self, dt, level_data):
     # Call parent update method
     super().update(dt, level_data)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 If you now run the code, you will notice that whenever the player dies by touching an enemy, they jump and fall off the screen before the level resets:
 
@@ -1481,7 +1628,8 @@ Currently, when the player collects all the coins, the level ends instantly. It 
 
 To do this, we will need to add a variable called `won` to the `PlayerNinja` class, along with a method to set this variable to true. In addition, we will need a variable to keep track of how many jumps we have remaining in the celebration animation, along with a function to detect when the animation has completed.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // player_ninja.hpp
 
 class PlayerNinja : public Ninja {
@@ -1510,7 +1658,9 @@ bool PlayerNinja::finished_celebrating() {
     return can_jump && celebration_jumps_remaining == 0;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // player_ninja.hpp
 
 class PlayerNinja : public Ninja {
@@ -1539,7 +1689,9 @@ bool PlayerNinja::finished_celebrating() {
     return can_jump && celebration_jumps_remaining == 0;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # player_ninja.py
 
 class PlayerNinja(Ninja):
@@ -1557,10 +1709,13 @@ class PlayerNinja(Ninja):
     def finished_celebrating(self):
         return self.can_jump and self.celebration_jumps_remaining == 0
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 In order to avoid using hard-coded values in our code, we will store the number of jumps to do for the celebration animation in our constants file, as the `CELEBRATION_JUMP_COUNT` constant. We will also add a `CELEBRATION_JUMP_SPEED` constant, so that the player does smaller jumps when the level is complete. 
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 namespace Player {
@@ -1570,7 +1725,9 @@ namespace Player {
     const uint8_t CELEBRATION_JUMP_COUNT = 3;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 namespace Player {
@@ -1580,7 +1737,9 @@ namespace Player {
     const uint8_t CELEBRATION_JUMP_COUNT = 3;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # constants.py
 
 class Player:
@@ -1590,10 +1749,13 @@ class Player:
     CELEBRATION_JUMP_COUNT = 3
 
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 We will then modify the `update` function of the `PlayerNinja` class so that the player will jump (if it is on a platform) when the level is completed. Each time, it will decrement `celebration_jumps_remaining` until it reaches 0.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // player_ninja.cpp
 
 void PlayerNinja::update(float dt, Constants::LevelData& level_data) {
@@ -1615,7 +1777,9 @@ void PlayerNinja::update(float dt, Constants::LevelData& level_data) {
     // ...
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // player_ninja.cpp
 
 void PlayerNinja::update(float dt, Constants::LevelData& level_data) {
@@ -1637,7 +1801,9 @@ void PlayerNinja::update(float dt, Constants::LevelData& level_data) {
     // ...
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # player_ninja.py
 
 def update(self, dt, level_data):
@@ -1656,10 +1822,13 @@ def update(self, dt, level_data):
 
     # ...
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 Finally, we need to add a new case to our `switch` statement, so that only the player is updated, and the level state is set to `COMPLETE` once the animation is finished. We must also change the value assigned to `level_state` when there are no coins left. 
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // level.cpp
 
 void Level::update(float dt) {
@@ -1698,7 +1867,9 @@ void Level::update(float dt) {
     }
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // level.cpp
 
 void Level::update(float dt) {
@@ -1737,7 +1908,9 @@ void Level::update(float dt) {
     }
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # level.py
 
 def update(self, dt):
@@ -1763,6 +1936,8 @@ def update(self, dt):
             # Player has finished doing victory jumps, or has fallen off the screen
             self.level_state = Level.LevelState.COMPLETE
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 > If the last coin the player collects is over a gap in the platforms, they will fall down, so we need to complete the game even if they fall off the screen after collecting all the coins.
 
@@ -1780,28 +1955,36 @@ Currently, there is only one level, so even if you win, the level appears to res
 
 Whenever we add a new level to our game, we need to remember to update the `LEVEL_COUNT` constant to keep track of the total number of levels available:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 // Update this line so that we can have 3 levels:
 const uint8_t LEVEL_COUNT = 3;
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 // Update this line so that we can have 3 levels:
 const uint8_t LEVEL_COUNT = 3;
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # constants.py
 
 # Update this line so that we can have 3 levels:
 LEVEL_COUNT = 3
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 Now we can add two more items to our `LEVELS` array, each corresponding to a new level in the game. Each of these levels is an instance of `LevelData`, and contains several arrays which determine the platform, ladder, coin, and gem positions, along with the spawn locations of the player and all the enemies.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 const LevelData LEVELS[LEVEL_COUNT] = {
@@ -1930,7 +2113,9 @@ const LevelData LEVELS[LEVEL_COUNT] = {
     }
 };
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 const LevelData LEVELS[LEVEL_COUNT] = {
@@ -2059,7 +2244,9 @@ const LevelData LEVELS[LEVEL_COUNT] = {
     }
 };
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # constants.py
 
 LEVELS = [
@@ -2189,6 +2376,8 @@ LEVELS = [
     )
 ]
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 Now that we have added the level data and updated the total number of levels, the game will automatically add the new levels in. After you complete the first level, you will notice that the next (new) level starts, rather than the same one being repeated. Since there are only three levels (unless you added some of your own), once you complete the third level then the first level will start again.
 
@@ -2202,7 +2391,8 @@ Now that we have multiple levels which the player can complete, it would be usef
 
 The method of aligning our text varies depending on whether you are using  the 32blit or the PicoSystem. The 32blit SDK provides us with flags which we can pass to the `screen.text` function to specify the "anchor point" of the text. For the PicoSystem SDK, we have to use the `measure` function to calculate the height and width of the text which we will render, and then we can manually offset the text position by this amount.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // level.cpp
 
 void Level::render() {
@@ -2222,7 +2412,9 @@ void Level::render() {
     screen.text(score_string, minimal_font, Point(Constants::SCREEN_WIDTH - 2, 2), true, TextAlign::top_right);
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // level.cpp
 
 void Level::render() {
@@ -2248,7 +2440,9 @@ void Level::render() {
     text(score_string, Constants::SCREEN_WIDTH - 2 - w, 2);
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # level.py
 
 def render(self):
@@ -2272,6 +2466,8 @@ def render(self):
     # Render score in top right corner
     text(score_string, Constants.SCREEN_WIDTH - 2 - w, 2)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 > We need to add one to the level number when creating the string to render, because internally, the game numbers the levels starting at zero, and "Level 0" wouldn't make much sense to an uninformed user.
 
@@ -2289,21 +2485,26 @@ To add more variety to our game, we will randomly generate the initial direction
 
 In order to select the initial direction the enemy should be facing, we can use the `rand` function (or `choice` in Python) in the `EnemyNinja` constructor:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // enemy_ninja.cpp
 
 EnemyNinja::EnemyNinja(float x, float y) : Ninja(Colour::RED, x, y) {
     current_direction = std::rand() % 2 ? 1 : -1;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // enemy_ninja.cpp
 
 EnemyNinja::EnemyNinja(float x, float y) : Ninja(Colour::RED, x, y) {
     current_direction = std::rand() % 2 ? 1 : -1;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # enemy_ninja.py
 
 class EnemyNinja(Ninja):
@@ -2315,12 +2516,15 @@ class EnemyNinja(Ninja):
 
         # ...
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 ### Randomising enemy speed
 
 For even more variation, we can randomise the speed of the enemies (within a certain range). We will need to add a `MIN_SPEED` constant to our constants file, which will be used to determine the lower limit for the randomly generated speed. We will also change the `MAX_SPEED` value, so that the average speed remains 15 pixels per second.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 namespace Enemy {
@@ -2330,7 +2534,9 @@ namespace Enemy {
     // ...
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 namespace Enemy {
@@ -2340,7 +2546,9 @@ namespace Enemy {
     // ...
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # constants.py
 
 class Enemy:
@@ -2349,10 +2557,13 @@ class Enemy:
 
     # ...
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 We will also need to add a new private `speed` attribute to the `EnemyNinja` class. This is because each enemy will travel at a different speed, so they each need to store their own speed. We will initialise this speed using code similar to what we used in `random_bool`: we will generate a random value between 0 and 1, scale it up by the difference between `MAX_SPEED` and `MIN_SPEED`, and then add on `MIN_SPEED` to the resulting value:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // enemy_ninja.cpp
 
 EnemyNinja::EnemyNinja(float x, float y) : Ninja(Colour::RED, x, y) {
@@ -2361,7 +2572,9 @@ EnemyNinja::EnemyNinja(float x, float y) : Ninja(Colour::RED, x, y) {
     speed = Constants::Enemy::MIN_SPEED + (Constants::Enemy::MAX_SPEED - Constants::Enemy::MIN_SPEED) * std::rand() / static_cast<float>(RAND_MAX);
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // enemy_ninja.cpp
 
 EnemyNinja::EnemyNinja(float x, float y) : Ninja(Colour::RED, x, y) {
@@ -2370,7 +2583,9 @@ EnemyNinja::EnemyNinja(float x, float y) : Ninja(Colour::RED, x, y) {
     speed = Constants::Enemy::MIN_SPEED + (Constants::Enemy::MAX_SPEED - Constants::Enemy::MIN_SPEED) * std::rand() / static_cast<float>(RAND_MAX);
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # enemy_ninja.py
 
 class EnemyNinja(Ninja):
@@ -2380,6 +2595,8 @@ class EnemyNinja(Ninja):
 
         self.speed = Constants.Enemy.MIN_SPEED + (Constants.Enemy.MAX_SPEED - Constants.Enemy.MIN_SPEED) * random()
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 If you are using C++, you will also need to declare the new variable in the header file:
 
@@ -2399,7 +2616,8 @@ private:
 
 In the `update` function of the `EnemyNinja` class, we now need to use our `speed` variable instead of the `MAX_SPEED` constant:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // enemy_ninja.cpp
 
 void EnemyNinja::update(float dt, Constants::LevelData& level_data) {
@@ -2417,7 +2635,9 @@ void EnemyNinja::update(float dt, Constants::LevelData& level_data) {
     // ...
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // enemy_ninja.cpp
 
 void EnemyNinja::update(float dt, Constants::LevelData& level_data) {
@@ -2435,7 +2655,9 @@ void EnemyNinja::update(float dt, Constants::LevelData& level_data) {
     // ...
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # enemy_ninja.py
 
 def update(self, dt, level_data):
@@ -2451,6 +2673,8 @@ def update(self, dt, level_data):
 
     # ...
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 If you run the code, you will see that each enemy now faces a random direction and all of them have a slightly different speed:
 
@@ -2464,7 +2688,8 @@ Next, we will add semi-transparent pipes in the background, which are unique to 
 
 We will need to add a new array to our `LevelData` data structure, which we will use to store the new tile data:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 struct LevelData {
@@ -2474,7 +2699,9 @@ struct LevelData {
     uint8_t pipes[GAME_WIDTH_TILES * GAME_HEIGHT_TILES];
 };
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 struct LevelData {
@@ -2484,7 +2711,9 @@ struct LevelData {
     uint8_t pipes[GAME_WIDTH_TILES * GAME_HEIGHT_TILES];
 };
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # constants.py
 
 class LevelData:
@@ -2497,10 +2726,13 @@ class LevelData:
     def copy(self):
         return LevelData(self.platforms.copy(), self.extras.copy(), self.entity_spawns.copy(), self.pipes.copy())
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 Now we can add the new information to the `LEVELS` array:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 const LevelData LEVELS[LEVEL_COUNT] = {
@@ -2615,7 +2847,9 @@ const LevelData LEVELS[LEVEL_COUNT] = {
     }
 };
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 const LevelData LEVELS[LEVEL_COUNT] = {
@@ -2730,7 +2964,9 @@ const LevelData LEVELS[LEVEL_COUNT] = {
     }
 };
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # constants.py
 
 LEVELS = [
@@ -2846,10 +3082,13 @@ LEVELS = [
     )
 ]
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 Finally, we can render the new tiles using our `render_tiles` function in the `Level` class:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // level.cpp
 
 void Level::render() {
@@ -2864,7 +3103,9 @@ void Level::render() {
     // ...
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // level.cpp
 
 void Level::render() {
@@ -2876,7 +3117,9 @@ void Level::render() {
     // ...
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # level.py
 
 def render(self):
@@ -2885,6 +3128,8 @@ def render(self):
 
     # ...
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 > In order to get semi-transparent tiles, we temporarily change the alpha transparency, but then we need to change it back for the rest of the render function. We can do this with MicroPython, but it would require us using the `blend(ALPHA)` mode instead of `blend(MASK)`, which would make the game run even slower.
 
@@ -2892,7 +3137,8 @@ def render(self):
 
 Finally, we will add some water tiles along the bottom of the screen, to give a reason for why the player dies when they fall off the bottom of the screen. We will create a new function for this called `render_water`, which draws the same tile repeatedly along the bottom of the screen:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // level.hpp
 
 class Level {
@@ -2915,7 +3161,9 @@ void Level::render_water() {
     }
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // level.hpp
 
 class Level {
@@ -2938,7 +3186,9 @@ void Level::render_water() {
     }
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # level.py
 
 class Level:
@@ -2948,10 +3198,13 @@ class Level:
         for i in range(Constants.GAME_WIDTH_TILES):
             sprite(Constants.Sprites.WATER, Constants.GAME_OFFSET_X + i * Constants.SPRITE_SIZE, Constants.GAME_OFFSET_Y + Constants.GAME_HEIGHT - Constants.SPRITE_SIZE)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 Our `render_water` function references the `WATER` constant, which doesn't exist yet. Before we can use our function, we need to add the new constant to our constants file:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 namespace Sprites {
@@ -2960,7 +3213,9 @@ namespace Sprites {
     const uint8_t WATER = 30;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // constants.hpp, inside Constants namespace
 
 namespace Sprites {
@@ -2969,7 +3224,9 @@ namespace Sprites {
     const uint8_t WATER = 30;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # constants.py
 
 class Sprites:
@@ -2977,10 +3234,13 @@ class Sprites:
 
     WATER = 30
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 We are now ready to call this function from within the `render` method of the `Level` class:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // level.cpp
 
 void Level::render() {
@@ -2998,7 +3258,9 @@ void Level::render() {
     // ...
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // level.cpp
 
 void Level::render() {
@@ -3013,7 +3275,9 @@ void Level::render() {
     // ...
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # level.py
 
 def render(self):
@@ -3024,6 +3288,8 @@ def render(self):
 
     # ...
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 When you now run the code, it will look something like this:
 

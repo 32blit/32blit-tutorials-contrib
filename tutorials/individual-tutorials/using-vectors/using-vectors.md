@@ -9,6 +9,8 @@
 * [Summary](#summary)
 * [Taking it further](#taking-it-further)
 
+> ![C++](../../cpp_logo.svg#icon) Note that this tutorial is currently only available in C++
+
 ## Introduction
 
 Vectors are a crucial component of game programming. Just like in mathematics, a vector stores both a magnitude and direction, which can also be interpreted as a set of coordinates. A vector can have any number of dimensions, but for games programming we typically use 2D or 3D vectors (and sometimes 4D for several more advanced calculations). For the 32blit and PicoSystem, most of your games will only need 2D vectors.

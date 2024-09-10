@@ -124,12 +124,18 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 
 While editing `CMakeLists.txt`, we'll also change our project name from `game` (or `my_project` on PicoSystem) to `NinjaThief`:
 
-```cmake 32blit
+{% capture 32blit %}
+```cmake
 project(NinjaThief)
 ```
-```cmake PicoSystem
+{% endcapture %}
+{% capture PicoSystem %}
+```cmake
 set(PROJECT_NAME NinjaThief)
 ```
+{% endcapture %}
+
+{% include code-tabs.html 32blit=32blit PicoSystem=PicoSystem %}
 
 If you're using 32blit, you'll also need to edit the `metadata.yml` file. This file contains the metadata used by the 32blit game launcher, such as your game title, description, author name, game category, version number, and project url. We'll set these values now, so that we don't need to change them later. If you want, you can always start the version number at something like `0.1.0` and update it as you work your way through the tutorial.
 
@@ -182,7 +188,8 @@ It's always a good idea to avoid having any "magic constants" in your code, and 
 
 Create a new file in `include/` called `constants.hpp` (if you're using Python, don't put it in a folder, and name it `constants.py` instead), and add these constants to start off with:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // constants.hpp
 
 #pragma once
@@ -202,7 +209,9 @@ namespace Constants {
     const uint8_t SPRITE_SIZE = 8;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // constants.hpp
 
 #pragma once
@@ -226,7 +235,9 @@ namespace Constants {
     const uint8_t SPRITESHEET_HEIGHT = SPRITE_SIZE * 6;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # constants.py
 
 # Screen size in pixels
@@ -244,20 +255,29 @@ SPRITE_SIZE = 8
 SPRITESHEET_WIDTH = SPRITE_SIZE * 8
 SPRITESHEET_HEIGHT = SPRITE_SIZE * 6
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 > This game is designed to be as similar as possible for both 32blit and PicoSystem, so although the screen size is not the same, we will keep the actual game area the same, and use the `GAME_WIDTH` and `GAME_HEIGHT` constants to store the size of this area.
 
 Now that we have declared some constants, we need to include them in `ninja_thief.hpp` (or `ninja_thief.py` if you're using Python). At the start of the file, add this line:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 #include "constants.hpp"
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 #include "constants.hpp"
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 import constants as Constants
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 > For the Python code, the `as` keyword is used because the code is designed to be as similar as possible between languages and SDKs, including with the capitalisation.
 
@@ -272,21 +292,28 @@ If we're going to make a game, we need to know how to draw things to the screen.
 
 The SDK also allows us to set the colour of text and shapes. To achieve this, we can change the current "pen" colour before rendering the text or shape (or clearing the screen):
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // Replace r, g, b with the RGB (0-255) values you want to use
 screen.pen = Pen(r, g, b);
 // Render your text/shape here
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // Replace r, g, b with the RGB (0-15) values you want to use
 pen(r, g, b);
 // Render your text/shape here
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # Replace r, g, b with the RGB (0-15) values you want to use
 pen(r, g, b)
 # Render your text/shape here
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 > The PicoSystem SDK (for both C++ and MicroPython) is slightly different to the 32blit SDK, since it requires the RGB parameters to the `pen` function to each be in the range 0-15 (rather than the standard 0-255).
 
@@ -296,24 +323,31 @@ Each time `render`[^render-vs-draw] is called, we need to redraw the game from s
 
 Add this code to your empty `render`[^render-vs-draw] function (feel free to experiment with different colours):
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // Replace with the RGB (0-255) values you want to use
 screen.pen = Pen(150, 255, 50);
 // Clear the screen
 screen.clear();
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // Replace with the RGB (0-15) values you want to use
 pen(9, 15, 3);
 // Clear the screen
 clear();
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # Replace with the RGB (0-15) values you want to use
 pen(9, 15, 3)
 # Clear the screen
 clear()
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 ### Text
 
@@ -323,27 +357,34 @@ In "Ninja Thief" we will be using text to display the current level number, alon
 
 For now, we will display a placeholder message for the player's current score. Add this code to your `render`[^render-vs-draw] function, after the call to `clear` the screen:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // Set the text colour to white
 screen.pen = Pen(255, 255, 255);
 
 // Render the placeholder score text
 screen.text("Score: 0", minimal_font, Point(2, 2));
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // Set the text colour to white
 pen(15, 15, 15);
 
 // Render the placeholder score text
 text("Score: 0", 2, 2);
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # Set the text colour to white
 pen(15, 15, 15)
 
 # Render the placeholder score text
 text("Score: 0", 2, 2)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 > You may have noticed that the parameters for the `text` function are slightly different between 32blit and PicoSystem. Both require you to specify the message and the position, but the 32blit SDK allows you to specify the font (and optionally the alignment of the text, and whether to use variable character widths). The PicoSystem SDK provides a `font` function which allows the current font to be set, along with whether to use variable width characters or not. For this project, we don't need anything fancy, so we'll stick with the default font for the PicoSystem SDK.
 
@@ -363,7 +404,8 @@ The SDKs support the following primitive shapes:
 
 You can temporarily add the following code to the `render`[^render-vs-draw] function in order to experiment with the different functions that the SDKs provide.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // Draw a red (filled) rectangle
 screen.pen = Pen(255, 0, 0);
 screen.rectangle(Rect(10, 10, 50, 20));
@@ -376,7 +418,9 @@ screen.circle(Point(20, 40), 10);
 screen.pen = Pen(0, 255, 0);
 screen.line(Point(0, 0), Point(120, 120));
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // Draw a red (filled) rectangle
 pen(15, 0, 0);
 frect(10, 10, 50, 20);
@@ -389,7 +433,9 @@ fcircle(20, 40, 10);
 pen(0, 15, 0);
 line(0, 0, 120, 120);
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # Draw a red (filled) rectangle
 pen(15, 0, 0)
 frect(10, 10, 50, 20)
@@ -402,6 +448,8 @@ fcircle(20, 40, 10)
 pen(0, 15, 0)
 line(0, 0, 120, 120)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 ### Images
 
@@ -413,18 +461,25 @@ Most of the games you create will make significant use of images, but before you
 
 In order to render an image, we can use the `blit` function, which allows us to copy a portion of an image onto the screen. For the background of our game, we will copy the entire image onto the screen:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // Draw the entire background image onto the screen at (0, 0)
 screen.blit(background, Rect(0, 0, Constants::SCREEN_WIDTH, Constants::SCREEN_HEIGHT), Point(0, 0));
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // Draw the entire background image onto the screen at (0, 0)
 blit(background, 0, 0, Constants::SCREEN_WIDTH, Constants::SCREEN_HEIGHT, 0, 0);
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # Draw the entire background image onto the screen at (0, 0)
 blit(background, 0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, 0, 0)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 ### Sprites
 
@@ -432,7 +487,8 @@ Often many small images are stored on a single spritesheet, making it simpler bo
 
 In the `init` function, we will load the spritesheet in as a normal image, and pass it to the SDK as the main spritesheet for our game. As we're only using a single spritesheet, we don't need to worry about swapping between spritesheet images. Our `init` function should now look like this:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 void init() {
     // Set the resolution to 160x120
     set_screen_mode(ScreenMode::lores);
@@ -447,7 +503,9 @@ void init() {
     screen.sprites = spritesheet;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 void init() {
     // Load the spritesheet
     buffer_t* sprites = buffer(Constants::SPRITESHEET_WIDTH, Constants::SPRITESHEET_HEIGHT, asset_spritesheet);
@@ -459,7 +517,9 @@ void init() {
     background = buffer(Constants::SCREEN_WIDTH, Constants::SCREEN_HEIGHT, asset_background);
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # Note that we don't need an init function for MicroPython
 
 # Load the spritesheet
@@ -471,6 +531,8 @@ spritesheet(sprites)
 # Load the background
 background = Buffer(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, "assets/background.16bpp")
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 > For 32blit, our game will use a 160x120 resolution, which is why we tell the SDK to use the `lores` screen mode:
 >
@@ -484,18 +546,25 @@ Now that we've loaded our spritesheet and set it as the main spritesheet for our
 
 In order to render a sprite, we will provide the index of the sprite we need, along with the position to render it at:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // Draw the first blue player sprite (index 32) at (50, 50)
 screen.sprite(32, Point(50, 50));
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // Draw the first blue player sprite (index 32) at (50, 50)
 sprite(32, 50, 50);
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # Draw the first blue player sprite (index 32) at (50, 50)
 sprite(32, 50, 50)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 TODO: SCREENSHOT??
 

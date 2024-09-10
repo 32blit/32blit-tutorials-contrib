@@ -31,7 +31,8 @@ To demonstrate this style of menu system, we will create a (very!) basic game wi
 
 We'll start off by creating our `enum` to keep track of the current state (in Python, we will use class instead). At the same time, we'll create some empty functions for each of our game states, and switch between them in the main `update` and `render` functions:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 #include "main.hpp"
 
 using namespace blit;
@@ -107,7 +108,9 @@ void render(uint32_t time) {
     }
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 #include "main.hpp"
 
 using namespace picosystem;
@@ -182,7 +185,9 @@ void draw(uint32_t tick) {
     }
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # Possible menu states
 class Scene:
     TITLE = 0
@@ -238,10 +243,13 @@ def draw(tick):
 # Start the game
 start()
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 Our title screen has two options which the user can select: "Play" or "Credits". We will use an integer to track the currently selected option, which we can increment or decrement by one as the user moves up and down through the menu. This variable will need to be stored in the global scope, since it can't be recalculated each frame (this is one of the downsides of not using object-oriented programming, which allows the data associated with a specific scene to be encapsulated within a class).
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // In main.cpp
 
 const std::vector<std::string> TITLE_MENU_OPTIONS {
@@ -292,7 +300,9 @@ void render_title() {
 }
 
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // In main.cpp
 
 const std::vector<std::string> TITLE_MENU_OPTIONS {
@@ -341,7 +351,9 @@ void render_title() {
     rect(20, 20 + 20 * option_selected, 5, 5);
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # In main.py
 
 TITLE_MENU_OPTIONS = [
@@ -387,6 +399,8 @@ def render_title():
     # Indicate currently selected option
     rect(20, 20 + 20 * option_selected, 5, 5)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 If you're using C++, you'll also need to include the headers which provide access to the `string` and `vector` data types:
 
@@ -399,7 +413,8 @@ If you're using C++, you'll also need to include the headers which provide acces
 
 We can define the functions for the credits screen in a similar manner:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // In main.cpp
 
 const std::vector<std::string> CREDITS_OPTIONS {
@@ -435,7 +450,9 @@ void render_credits() {
     screen.rectangle(Rect(20, 20 + 10 * (CREDITS_OPTIONS.size() - 1), 5, 5));
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // In main.cpp
 
 const std::vector<std::string> CREDITS_OPTIONS {
@@ -471,7 +488,9 @@ void render_credits() {
     rect(20, 20 + 10 * (CREDITS_OPTIONS.size() - 1), 5, 5);
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # In main.py
 
 CREDITS_OPTIONS = [
@@ -506,10 +525,13 @@ def render_credits():
     # Indicate the back option
     rect(20, 20 + 10 * (len(CREDITS_OPTIONS) - 1), 5, 5)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 Finally, we can add the actual game code. Every time the player presses the A button, we will increment a variable called `total_presses`, and if the user presses B, we will return to the main menu. We also need to reset `total_presses` when the game is restarted from the title screen.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // In main.cpp
 
 // We need to declare total_presses in the global scope:
@@ -549,7 +571,9 @@ void render_game() {
     screen.text("Cookies: " + std::to_string(total_presses), minimal_font, Point(30, 19));
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // In main.cpp
 
 // We need to declare total_presses in the global scope:
@@ -589,7 +613,9 @@ void render_game() {
     text("Cookies: " + std::to_string(total_presses), 30, 19);
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # In main.py
 
 # We need to declare total_presses in the global scope:
@@ -630,6 +656,8 @@ def render_game():
     pen(15, 15, 15)
     text("Cookies: " + str(total_presses), 30, 19)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 The result should look something like this:
 
@@ -641,25 +669,32 @@ The graphics aren't anything fancy - just rows of text with a white square next 
 
 The credits and main game scenes require data to be initialised or reset before you can change to that scene, which gets complicated if there are multiple ways of entering that scene. This can be solved by adding an initialisation function for each scene, which gets called when the code wants to change to a new scene. For example, the initialisation function for the main game scene might look like this:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 void init_game() {
     current_scene = Scene::GAME;
     total_presses = 0;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 void init_game() {
     current_scene = Scene::GAME;
     total_presses = 0;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 def init_game():
     global current_scene, total_presses
     
     current_scene = Scene.GAME
     total_presses = 0
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 This means that instead of modifying the `current_scene` variable directly in order to change scenes, the corresponding initialisation function can be called, which handles everything needed by that scene.
 
@@ -673,7 +708,8 @@ Using classes also allows us to remove the switch statements in the `update` and
 
 Polymorphism can be a tricky thing to get your head around, so it's best understood with an example:
 
-```cpp C++
+{% capture cpp %}
+```cpp
 #include <iostream>
 
 class BaseClass {
@@ -703,7 +739,9 @@ int main() {
     return 0;
 }
 ```
-```python Python
+{% endcapture %}
+{% capture mp %}
+```python
 class BaseClass:
     def something(self):
         print("BaseClass.something")
@@ -718,6 +756,8 @@ item.something() # outputs: "BaseClass.something"
 item = ChildClass()
 item.something() # outputs: "ChildClass.something"
 ```
+{% endcapture %}
+{% include code-tabs.html __CPP=cpp __MP=mp %}
 
 > In Python, reassignment of a variable will also change its type (if needed), which means that we don't need to use a `BaseClass` pointer to store `ChildClass` instances. This results in the output being slightly more intuitive than with C++, since in Python, the overriding method is *always* called.
 
@@ -727,7 +767,8 @@ We will start off by creating the `Scene` class, which will provide the interfac
 
 In order to keep our code neat and tidy, we'll put this class inside a new pair of files called `scene.hpp` and `scene.cpp` (in Python, we only need one new file, called `scene.py`):
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // In scene.hpp
 
 #pragma once
@@ -780,7 +821,9 @@ void Scene::finish(Scene* next_scene) {
 	_finished = true;
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // In scene.hpp
 
 #pragma once
@@ -833,7 +876,9 @@ void Scene::finish(Scene* next_scene) {
 	_finished = true;
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # In scene.py
 
 class Scene:
@@ -863,10 +908,13 @@ class Scene:
         self._next = next_scene
         self._finished = True
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 We can now store a pointer to the current scene and call the `update` and `render` methods on it, without needing a switch statement:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // In main.hpp
 
 #include "scene.hpp"
@@ -884,7 +932,9 @@ void render(uint32_t time) {
     current_scene->render();
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // In main.hpp
 
 #include "scene.hpp"
@@ -902,7 +952,9 @@ void draw(uint32_t tick) {
     current_scene->render();
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # In main.py
 
 from scene import Scene
@@ -919,6 +971,8 @@ def draw(tick):
 # Start the game
 start()
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 Our `update` and `render` functions are now much simpler and tidier, and they perform the same job as before! However, we need to add some extra code to allow the current scene to be changed.
 
@@ -928,7 +982,8 @@ At this point, we also want to call the `enter` and `leave` functions on the cor
 
 Our `update` method should now look like this:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // In main.cpp
 
 void update(uint32_t time) {
@@ -948,7 +1003,9 @@ void update(uint32_t time) {
     }
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // In main.cpp
 
 void update(uint32_t tick) {
@@ -968,7 +1025,9 @@ void update(uint32_t tick) {
     }
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # In main.py
 
 def update(tick):
@@ -987,6 +1046,8 @@ def update(tick):
         current_scene = next_scene
         current_scene.enter()
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 We've finished all the framework code, so we can move on to implementing the example. Before we do, notice that the code we've written so far has absolutely no knowledge of any child classes of `Scene`, or any game-specific information. This code can therefore be used for pretty much any game which requires a menu system!
 
@@ -994,7 +1055,8 @@ We've finished all the framework code, so we can move on to implementing the exa
 
 Each scene we create will need to inherit from the `Scene` class. For larger projects, it's best to put each class in a separate file, but our scenes will be very basic, so we'll define them all in one file called `game_scenes.cpp` (or `game_scenes.py`). The code within the classes will be very similar to the switch-based example, with the primary difference being that the `finish` function is used to change between scenes. We'll also be using the `enter` function to perform the initialisation of any class-specific variables.
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // In game_scenes.hpp
 
 #pragma once
@@ -1147,7 +1209,9 @@ void GameScene::render() {
     screen.text("Cookies: " + std::to_string(total_presses), minimal_font, Point(30, 19));
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // In game_scenes.hpp
 
 #pragma once
@@ -1300,7 +1364,9 @@ void GameScene::render() {
     text("Cookies: " + std::to_string(total_presses), 30, 19);
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # In game_scenes.py
 
 from scene import Scene
@@ -1402,10 +1468,13 @@ class GameScene(Scene):
         pen(15, 15, 15)
         text("Cookies: " + str(self.total_presses), 30, 19)
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 Finally, when the game is run we need to start our menu by creating an instance of the `TitleScene` class and assigning it to `current_scene` in the `init` function[^python-init]:
 
-```cpp 32blit (C++)
+{% capture 32blitcpp %}
+```cpp
 // In main.hpp
 
 #include "game_scenes.hpp"
@@ -1419,7 +1488,9 @@ void init() {
     current_scene->enter();
 }
 ```
-```cpp PicoSystem (C++)
+{% endcapture %}
+{% capture picosystemcpp %}
+```cpp
 // In main.hpp
 
 #include "game_scenes.hpp"
@@ -1431,7 +1502,9 @@ void init() {
     current_scene->enter();
 }
 ```
-```python PicoSystem (MicroPython)
+{% endcapture %}
+{% capture picosystemmp %}
+```python
 # In main.py
 
 from game_scenes import TitleScene
@@ -1441,6 +1514,8 @@ from game_scenes import TitleScene
 current_scene = TitleScene()
 current_scene.enter()
 ```
+{% endcapture %}
+{% include code-tabs.html 32blit__CPP=32blitcpp PicoSystem__CPP=picosystemcpp PicoSystem__MP=picosystemmp %}
 
 Running our code results in exactly the same behaviour as the switch-based example, but the code structure is significantly different. Using the state pattern means that each scene is much more self-contained, and it is much easier to add new scenes (you don't need to add yet another case to each `switch` statement).
 
