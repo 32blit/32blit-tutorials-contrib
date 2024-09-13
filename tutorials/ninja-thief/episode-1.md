@@ -574,9 +574,9 @@ We've now learnt everything we'll need to handle the rendering of our game. So f
 
 You can access the source code for the project so far here:
 
-* [32blit (C++)](../../source-code/ninja-thief/episode-1/32blit-cpp/)
-* [PicoSystem (C++)](../../source-code/ninja-thief/episode-1/picosystem-cpp/)
-* [PicoSystem (MicroPython)](../../source-code/ninja-thief/episode-1/picosystem-micropython/)
+* [32blit (C++)](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/ninja-thief/episode-1/32blit-cpp/)
+* [PicoSystem (C++)](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/ninja-thief/episode-1/picosystem-cpp/)
+* [PicoSystem (MicroPython)](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/ninja-thief/episode-1/picosystem-micropython/)
 
 Next episode, we will get the player moving and responding to input, as well as adding gravity.
 

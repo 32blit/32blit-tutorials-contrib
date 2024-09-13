@@ -112,7 +112,7 @@ void update(uint32_t time) {
 
 TODO talky? or not
 
-TODO The [example code for this section](../../../source-code/individual-tutorials/making-noise/playing-notes/) blah blah
+TODO The [example code for this section](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/individual-tutorials/making-noise/playing-notes/) blah blah
 
 
 ## RENAME: Playing MP3s
@@ -184,7 +184,7 @@ void update(uint32_t time) {
 }
 ```
 
-TODO: The [example code for this section](../../../source-code/individual-tutorials/making-noise/playing-mp3s/) blah blah
+TODO: The [example code for this section](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/individual-tutorials/making-noise/playing-mp3s/) blah blah
 
 ## RENAME: Playing WAVs
 
