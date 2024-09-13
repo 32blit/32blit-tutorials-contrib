@@ -1460,15 +1460,15 @@ You can view the source code for this tutorial (including both examples) here:
 
 ### Switch-based example
 
-* [32blit (C++)](../../../source-code/individual-tutorials/creating-menus/switch-based-menu/32blit-cpp/)
-* [PicoSystem (C++)](../../../source-code/individual-tutorials/creating-menus/switch-based-menu/picosystem-cpp/)
-* [PicoSystem (MicroPython)](../../../source-code/individual-tutorials/creating-menus/switch-based-menu/picosystem-micropython/)
+* [32blit (C++)](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/individual-tutorials/creating-menus/switch-based-menu/32blit-cpp/)
+* [PicoSystem (C++)](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/individual-tutorials/creating-menus/switch-based-menu/picosystem-cpp/)
+* [PicoSystem (MicroPython)](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/individual-tutorials/creating-menus/switch-based-menu/picosystem-micropython/)
 
 ### State pattern example
 
-* [32blit (C++)](../../../source-code/individual-tutorials/creating-menus/state-pattern-menu/32blit-cpp/)
-* [PicoSystem (C++)](../../../source-code/individual-tutorials/creating-menus/state-pattern-menu/picosystem-cpp/)
-* [PicoSystem (MicroPython)](../../../source-code/individual-tutorials/creating-menus/state-pattern-menu/picosystem-micropython/)
+* [32blit (C++)](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/individual-tutorials/creating-menus/state-pattern-menu/32blit-cpp/)
+* [PicoSystem (C++)](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/individual-tutorials/creating-menus/state-pattern-menu/picosystem-cpp/)
+* [PicoSystem (MicroPython)](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/individual-tutorials/creating-menus/state-pattern-menu/picosystem-micropython/)
 
 ## Taking it further
 

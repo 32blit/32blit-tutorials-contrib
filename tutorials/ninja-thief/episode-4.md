@@ -2767,9 +2767,9 @@ We've got a lot done this episode - ladders are now drawn to the screen, and the
 
 You can access the source code for the project so far here:
 
-* [32blit (C++)](../../source-code/ninja-thief/episode-4/32blit-cpp/)
-* [PicoSystem (C++)](../../source-code/ninja-thief/episode-4/picosystem-cpp/)
-* [PicoSystem (MicroPython)](../../source-code/ninja-thief/episode-4/picosystem-micropython/)
+* [32blit (C++)](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/ninja-thief/episode-4/32blit-cpp/)
+* [PicoSystem (C++)](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/ninja-thief/episode-4/picosystem-cpp/)
+* [PicoSystem (MicroPython)](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/ninja-thief/episode-4/picosystem-micropython/)
 
 In the final episode, we will make the player able to die (either by touching an enemy or falling off the screen). We add the ability for the player to collect the coins and gems (collecting all the coins will complete the level). We'll also add another level map, which starts once the player completes the previous one, along with some pipes in the background of each level. 
 

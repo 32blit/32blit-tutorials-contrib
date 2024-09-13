@@ -1157,9 +1157,9 @@ We've covered how to detect when buttons have been pressed, or when they are hel
 
 You can access the source code for the project so far here:
 
-* [32blit (C++)](../../source-code/ninja-thief/episode-2/32blit-cpp/)
-* [PicoSystem (C++)](../../source-code/ninja-thief/episode-2/picosystem-cpp/)
-* [PicoSystem (MicroPython)](../../source-code/ninja-thief/episode-2/picosystem-micropython/)
+* [32blit (C++)](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/ninja-thief/episode-2/32blit-cpp/)
+* [PicoSystem (C++)](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/ninja-thief/episode-2/picosystem-cpp/)
+* [PicoSystem (MicroPython)](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/ninja-thief/episode-2/picosystem-micropython/)
 
 Next episode, we will be looking at storing, loading, and rendering levels, along with the basics of collision detection and resolution.
 

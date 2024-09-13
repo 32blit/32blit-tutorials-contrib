@@ -3035,9 +3035,9 @@ In this episode, we've finally made our game completely playable. You can now co
 
 You can access the source code for the project here:
 
-* [32blit (C++)](../../source-code/ninja-thief/episode-5/32blit-cpp/)
-* [PicoSystem (C++)](../../source-code/ninja-thief/episode-5/picosystem-cpp/)
-* [PicoSystem (MicroPython)](../../source-code/ninja-thief/episode-5/picosystem-micropython/)
+* [32blit (C++)](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/ninja-thief/episode-5/32blit-cpp/)
+* [PicoSystem (C++)](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/ninja-thief/episode-5/picosystem-cpp/)
+* [PicoSystem (MicroPython)](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/ninja-thief/episode-5/picosystem-micropython/)
 
 ## What's next?
 

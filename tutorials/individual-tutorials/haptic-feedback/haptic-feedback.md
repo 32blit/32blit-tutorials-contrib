@@ -62,7 +62,7 @@ void update(uint32_t time) {
 }
 ```
 
-A slightly more developed version of this can be found in the [example code](../../../source-code/individual-tutorials/haptic-feedback/fading-amplitude/), which uses different starting amplitudes for different buttons, along with a visualisation of the current value of the `blit::vibration` variable:
+A slightly more developed version of this can be found in the [example code](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/individual-tutorials/haptic-feedback/fading-amplitude/), which uses different starting amplitudes for different buttons, along with a visualisation of the current value of the `blit::vibration` variable:
 
 ![](fading-amplitude.gif)
 
@@ -113,7 +113,7 @@ void update(uint32_t time) {
 
 > When initialising `current_position`, we set it to the size of `effect` so that the effect won't play as soon as the demo starts.
 
-The [example code for this section](../../../source-code/individual-tutorials/haptic-feedback/complex-effects/) has a much longer `effect` array, in order to demonstrate several of the effects which are made possible by you specifing the haptic effects on a frame-by-frame basis. Feel free to edit it in order to create your own effects!
+The [example code for this section](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/individual-tutorials/haptic-feedback/complex-effects/) has a much longer `effect` array, in order to demonstrate several of the effects which are made possible by you specifing the haptic effects on a frame-by-frame basis. Feel free to edit it in order to create your own effects!
 
 ## Tidying it up into a class
 
@@ -252,7 +252,7 @@ Don't forget to add the `#include` statement for our new class at the start of `
 #include "haptic_manager.hpp"
 ```
 
-In the [example code for this section](../../../source-code/individual-tutorials/haptic-feedback/haptic-manager/), there are some extra effects mapped to the D-pad buttons, along with the same visualisation code used in the other sections. As always, make sure to experiment by changing values and creating your own effects. You could always try improving the `HapticManager` interface, for example to add the ability to pause an effect which is currently playing.
+In the [example code for this section](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/individual-tutorials/haptic-feedback/haptic-manager/), there are some extra effects mapped to the D-pad buttons, along with the same visualisation code used in the other sections. As always, make sure to experiment by changing values and creating your own effects. You could always try improving the `HapticManager` interface, for example to add the ability to pause an effect which is currently playing.
 
 ## Summary
 
@@ -262,9 +262,9 @@ In this tutorial, we've looked at how to add haptic feedback to our games, befor
 
 You can view the source code for this tutorial here:
 
-* [Fading amplitude example](../../../source-code/individual-tutorials/haptic-feedback/fading-amplitude/)
-* [Complex effects example](../../../source-code/individual-tutorials/haptic-feedback/complex-effects/)
-* [Haptic manager example](../../../source-code/individual-tutorials/haptic-feedback/haptic-manager/)
+* [Fading amplitude example](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/individual-tutorials/haptic-feedback/fading-amplitude/)
+* [Complex effects example](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/individual-tutorials/haptic-feedback/complex-effects/)
+* [Haptic manager example](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/individual-tutorials/haptic-feedback/haptic-manager/)
 
 ## Taking it further
 

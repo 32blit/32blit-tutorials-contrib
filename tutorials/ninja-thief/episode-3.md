@@ -1613,9 +1613,9 @@ In this episode, we looked at how to store information about our level layout, a
 
 You can access the source code for the project so far here:
 
-* [32blit (C++)](../../source-code/ninja-thief/episode-3/32blit-cpp/)
-* [PicoSystem (C++)](../../source-code/ninja-thief/episode-3/picosystem-cpp/)
-* [PicoSystem (MicroPython)](../../source-code/ninja-thief/episode-3/picosystem-micropython/)
+* [32blit (C++)](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/ninja-thief/episode-3/32blit-cpp/)
+* [PicoSystem (C++)](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/ninja-thief/episode-3/picosystem-cpp/)
+* [PicoSystem (MicroPython)](https://github.com/32blit/32blit-tutorials-contrib/tree/main/source-code/ninja-thief/episode-3/picosystem-micropython/)
 
 Next episode, we will stop our player from being able to jump in midair, and add ladders which the player can climb up and down. We will also add enemies, starting off with making them patrol the platforms they spawn on, before allowing them to climb ladders as well.
 
