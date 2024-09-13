@@ -15,7 +15,7 @@ You can get the latest MicroPython build for PicoSystem on the [releases page](h
 
 The file is located under the "Assets" section of the release, and will be named something similar to `picosystem-v0.1.3-micropython-v1.19.uf2`.
 
-You can load this onto the PicoSystem (to make it ready to run your MicroPython games) by entering [DFU mode](#dfu-mode) and copying it across to the drive which appears on your computer.
+You can load this onto the PicoSystem (to make it ready to run your MicroPython games) by entering [bootloader mode](#bootloader-mode) and copying it across to the drive which appears on your computer.
 
 ### ampy
 
@@ -29,9 +29,9 @@ python3 -m pip install adafruit-ampy
 
 ## Things you might not know
 
-### DFU mode
+### Bootloader mode
 
-DFU mode allows you to copy files onto your PicoSystem as if it is a standard USB storage device.
+bootloader mode allows you to copy .uf2 files onto your PicoSystem as if it is a standard USB storage device.
 
 Make sure it's powered off, plug it into your computer and then press the X button and power button at the same time. It will appear as a drive named "RPI-RP2", and you can copy a `.uf2` file across to it.
 

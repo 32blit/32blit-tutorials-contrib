@@ -48,9 +48,9 @@ git clone https://github.com/pimoroni/picosystem-boilerplate.git
 
 ## Things you might not know
 
-### DFU mode
+### Bootloader mode
 
-DFU mode allows you to copy files onto your PicoSystem as if it is a standard USB storage device.
+Bootloader mode allows you to copy .uf2 files onto your PicoSystem as if it is a standard USB storage device.
 
 Make sure it's powered off, plug it into your computer and then press the X button and power button at the same time. It will then appear as a drive, usually named "RPI-RP2", and you can copy a `.uf2` file across to it.
 
@@ -81,7 +81,7 @@ If this doesn't work, make sure that your USB cable is one which supports data t
    make
    ```
 
-4. Each example will be generated in a subdirectory called `examples/<example-name>/`. For example, the "shapes" demo will be called `examples/shapes/shapes.uf2`. You can then copy a game to your PicoSystem via DFU mode.
+4. Each example will be generated in a subdirectory called `examples/<example-name>/`. For example, the "shapes" demo will be called `examples/shapes/shapes.uf2`. You can then copy a game to your PicoSystem via bootloader mode.
 
 ## Build the boilerplate repository
 
@@ -134,7 +134,7 @@ Please note that although these instructions are similar to the above instructio
    make
    ```
 
-5. The `.uf2` file will be generated in the directory you are currently in, and will be called `my_project.uf2`. You can then copy this game to your PicoSystem via DFU mode.
+5. The `.uf2` file will be generated in the directory you are currently in, and will be called `my_project.uf2`. You can then copy this game to your PicoSystem via bootloader mode.
 
 ### Final result
 
