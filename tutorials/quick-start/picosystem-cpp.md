@@ -56,7 +56,7 @@ Make sure it's powered off, plug it into your computer and then press the X butt
 
 If this doesn't work, make sure that your USB cable is one which supports data transfer (some very cheap cables only support power).
 
-<!-- TODO: Add instructions for Linux/MacOS, since this is probably slightly different. This is particularly important since the rest of the instructions are only for Linux/WSL/MacOS. -->
+<!-- TODO: Add instructions for Linux/macOS, since this is probably slightly different. This is particularly important since the rest of the instructions are only for Linux/WSL/macOS. -->
 
 ## Build the repository and examples
 

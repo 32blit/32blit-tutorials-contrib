@@ -12,7 +12,7 @@ This mini-series is primarily aimed at people who have some experience coding in
 
 ## What do I need?
 
-These tutorials are designed for owners of a 32blit or PicoSystem, but if you don't have either, you can still follow along, as the 32blit SDK supports building executables for Linux, Windows and MacOS. Who knows, maybe you'll decide to get yourself a 32blit or PicoSystem, to try your creations out in real life!
+These tutorials are designed for owners of a 32blit or PicoSystem, but if you don't have either, you can still follow along, as the 32blit SDK supports building executables for Linux, Windows and macOS. Who knows, maybe you'll decide to get yourself a 32blit or PicoSystem, to try your creations out in real life!
 
 All the code examples will have versions for the 32blit SDK (C++) and the PicoSystem SDK (C++ and MicroPython).
 

@@ -22,7 +22,7 @@ python3 convert-image.py spritesheet.png
 
 > If you get an error message saying that Python was not found, try using `python` instead of `python3`, and ensure that Python 3 is installed.
 
-If you are using Linux or MacOS, you can also use:
+If you are using Linux or macOS, you can also use:
 
 ```
 cd assets

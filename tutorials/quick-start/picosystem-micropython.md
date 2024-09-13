@@ -64,7 +64,7 @@ When running files with `ampy`, any errors or messages which occur will be displ
 Some examples of terminal programs which support serial are:
 
 * Windows: `PuTTY` (download from [putty.org](https://www.putty.org/) or from the [Windows Store](https://apps.microsoft.com/store/detail/putty/XPFNZKSKLBP7RJ))
-* Linux/MacOS: `screen` (built-in)
+* Linux/macOS: `screen` (built-in)
 
 ## Run the examples
 
