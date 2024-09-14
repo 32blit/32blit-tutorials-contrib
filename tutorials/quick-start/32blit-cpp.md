@@ -68,7 +68,7 @@ If this doesn't work, make sure that your USB cable is one which supports data t
 
    Alternatively, you can click the drop-down next to the "Select Startup Item..." button (as seen in the previous image), and select a filename with a `.exe` suffix to run that example.
 
-### Linux/MacOS (command line)
+### Linux/macOS (command line)
 
 1. Navigate to the 32blit-sdk directory and create the build directory:
 
@@ -156,7 +156,7 @@ Once the boilerplate code is built and run, the window should look similar to th
 
 ![](cmake-settings-json.png)
 
-### Linux/MacOS (command line)
+### Linux/macOS (command line)
 
 1. Navigate to the `32blit-boilerplate` directory and create the build directory:
 
