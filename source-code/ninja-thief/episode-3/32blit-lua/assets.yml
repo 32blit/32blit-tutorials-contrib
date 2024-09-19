@@ -1,8 +1,9 @@
-# 32blit pack --force --config assets.yml
-# ideally these should be .blim, but the tools don't recognise that
+# 32blit pack --force --config assets.yml --output assets
 
-background.bin:
+background.blim:
+  type: raw_binary
   assets/background.png:
 
-spritesheet.bin:
+spritesheet.blim:
+  type: raw_binary
   assets/spritesheet.png:
