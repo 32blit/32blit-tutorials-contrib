@@ -1,0 +1,12 @@
+# 32blit metadata --config metadata.yml --metadata-file ninja_thief.blmeta
+
+title: Ninja Thief
+description: A tutorial game for the 32blit and PicoSystem. Collect all the coins while avoiding the enemy ninjas!
+author: ThePythonator
+splash:
+  file: assets/logo.png
+icon:
+  file: assets/icon.png
+version: v1.0.0
+category: game
+url: https://github.com/32blit/32blit-tutorials-contrib

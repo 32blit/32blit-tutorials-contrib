@@ -1,0 +1,9 @@
+# 32blit pack --force --config assets.yml --output assets
+
+background.blim:
+  type: raw_binary
+  assets/background.png:
+
+spritesheet.blim:
+  type: raw_binary
+  assets/spritesheet.png:
